@@ -1,0 +1,27 @@
+DROP TABLE users;
+DROP TABLE schools;
+DROP TABLE schoolAttendance;
+
+CREATE TABLE users
+(
+username varchar(25),
+password varchar(25),
+firstname varchar(25),
+lastname varchar(25),
+description varchar(255)
+);
+
+CREATE TABLE schools
+(
+schoolname varchar(25),
+location varchar(100),
+websiteAddress varchar(25)
+);
+
+CREATE TABLE schoolAttendance
+(
+schoolName varchar(25),
+userName varchar(25),
+startdate int,
+finishdate int
+);

@@ -1,0 +1,14 @@
+- Log in
+- log out
+
+- edit profile : name, description
+- list schoolmates on profile
+- users find their schools and add the years they joined and left
+
+
+- list all schools
+
+- school details page : list of alumni, list of schoolmates, link to school website
+- users can navigate to other profiles via schooll details page
+
+
