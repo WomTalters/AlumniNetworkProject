@@ -6,6 +6,8 @@
 package Controllers;
 
 import Database.DBAccess;
+import General.BadInputException;
+import General.InputCheck;
 import Models.User;
 import java.io.IOException;
 import java.sql.Connection;
@@ -42,31 +44,22 @@ public class SignUp extends HttpServlet {
 
         String enteredUsername = request.getParameter("username");
         String enteredPassword = request.getParameter("password");
+        String enteredFirstname = request.getParameter("firstname");
+        String enteredLastname = request.getParameter("lastname");
         
-        
-        //using regular expressions to make sure the entered username and password are the right length and format. 
-        Pattern pattern = Pattern.compile("\\w{4,25}");
-        Matcher matcher = pattern.matcher(enteredUsername);
-        
-        
-        if (!matcher.matches()) {
-            System.out.println("Username too long or short, or has wrong format");
-            session.setAttribute("error", "Your username must consist of 4-25 letters, numbers or underscores");
+       
+
+        //using regular expressions to make sure the entered feilds are the right length and format. 
+        try {
+            InputCheck.checkInput(4, 25, "username", enteredUsername, "\\w");
+            InputCheck.checkInput(4, 25, "password", enteredPassword, "\\w");
+            InputCheck.checkInput(1, 25, "firstname", enteredFirstname, "\\w");
+            InputCheck.checkInput(1, 25, "lastname", enteredLastname, "\\w");
+        } catch (BadInputException ex) {
+            session.setAttribute("error", ex.getMessage());
             response.sendRedirect("StartPage");
             return;
         }
-        
-        pattern = Pattern.compile("\\w{4,25}");
-        matcher = pattern.matcher(enteredPassword);
-        
-        
-        if (!matcher.matches()) {
-            System.out.println("Password too long or short, or has wrong format");
-            session.setAttribute("error", "Your password must consist of 4-25 letters, numbers or undescores");
-            response.sendRedirect("StartPage");
-            return;
-        }
-        
         
 
         //try to update the database with the new username and password
@@ -80,10 +73,17 @@ public class SignUp extends HttpServlet {
                 System.out.println("This username is taken");
                 session.setAttribute("error", "This username is already taken");
                 response.sendRedirect("StartPage");
-                return;
+
+            } else {
+                DBAccess.doUpdate("INSERT INTO users (username, password, firstname, lastname) VALUES ('" + enteredUsername + "','"
+                        + enteredPassword + "', '" + enteredFirstname + "', '" + enteredLastname + "');", con);
+                User user = new User(enteredUsername, enteredFirstname, enteredLastname);
+
+                session.setAttribute("user", user);
+
+                //Makes the browser redirect to the profile servlet. This is done to make the url reflect the page it is on and to stop form resubmission.
+                response.sendRedirect("Profile");
             }
-            System.out.println("sfg");
-            DBAccess.doUpdate("INSERT INTO users (username, password) VALUES ('" + enteredUsername + "','" + enteredPassword + "');", con);
 
         } catch (SQLException ex) {
             //if a query could not be excuted this error message is show on the start page
@@ -91,23 +91,14 @@ public class SignUp extends HttpServlet {
             ex.printStackTrace();
             session.setAttribute("error", "Could not do querry");
             response.sendRedirect("StartPage");
-            return;
 
         } catch (Exception ex) {
             //if the database connection could not be made the user is redirected to the startPage which shows an error message
-
             System.out.println("Could not connect to the database");
             session.setAttribute("error", "Could not connect to the database");
             response.sendRedirect("StartPage");
-            return;
+
         }
-
-        User user = new User(enteredUsername, enteredPassword);
-
-        session.setAttribute("user", user);
-
-        //Makes the browser redirect to the profile servlet. This is done to make the url reflect the page it is on and to stop form resubmission.
-        response.sendRedirect("Profile");
 
     }
 

@@ -16,7 +16,6 @@ and open the template in the editor.
     <servlet-mapping>
         <servlet-name>Profile</servlet-name>
         <url-pattern>/Profile</url-pattern>
-        <!-- You can change this-->
     </servlet-mapping>
     
     <servlet>
@@ -27,7 +26,6 @@ and open the template in the editor.
     <servlet-mapping>
         <servlet-name>StartPage</servlet-name>
         <url-pattern>/StartPage</url-pattern>
-        <!-- You can change this-->
     </servlet-mapping>
     
     <servlet>
@@ -38,7 +36,6 @@ and open the template in the editor.
     <servlet-mapping>
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/SignUp</url-pattern>
-        <!-- You can change this-->
     </servlet-mapping>
     
     <servlet>
@@ -49,7 +46,16 @@ and open the template in the editor.
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
-        <!-- You can change this-->
+    </servlet-mapping>
+    
+    <servlet>
+        <description></description>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>Controllers.Logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     
     

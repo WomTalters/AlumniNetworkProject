@@ -1,0 +1,14 @@
+
+package General;
+
+/**
+ *
+ * @author Tom
+ */
+public class BadInputException extends Exception {
+
+    public BadInputException(String message){
+            super(message);
+        }
+
+}

@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Controllers;
 
 import java.io.IOException;
@@ -17,8 +18,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Tom
  */
-@WebServlet(name = "StartPage", urlPatterns = {"/StartPage"})
-public class StartPage extends HttpServlet {
+@WebServlet(name = "Logout", urlPatterns = {"/Logout"})
+public class Logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,20 +32,12 @@ public class StartPage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-
-        //if there is a session the jsp page is displayed with any potential error messages and then removes the error message 
-        if (session == null) {
-            request.getRequestDispatcher("startPage.jsp").forward(request, response);
-        } else if (session.getAttribute("user") == null) {
-
-            request.getRequestDispatcher("startPage.jsp").forward(request, response);
-            request.getSession().removeAttribute("error");
-        }else{
-            response.sendRedirect("Profile");
-            request.getSession().removeAttribute("error");
-        }
-
+        HttpSession session = request.getSession();
+        
+        session.invalidate();
+        response.sendRedirect("StartPage");
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
