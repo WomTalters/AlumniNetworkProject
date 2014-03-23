@@ -3,15 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Controllers;
 
+import Database.DBAccess;
+import Models.User;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,11 +40,65 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        
-        
-        
+
+        HttpSession session = request.getSession(true);
+
+        String enteredUsername = request.getParameter("username");
+        String enteredPassword = request.getParameter("password");
+
+        //using regular expressions to make sure the entered username and password are the right length and format.
+        Pattern pattern = Pattern.compile("\\w{4,25}");
+        Matcher matcher = pattern.matcher(enteredUsername);
+
+        if (!matcher.matches()) {
+            System.out.println("Username too long or short, or has wrong format");
+            session.setAttribute("error", "Your username must consist of 4-25 letters, numbers or underscores");
+            response.sendRedirect("StartPage");
+            return;
+        }
+
+        pattern = Pattern.compile("\\w{4,25}");
+        matcher = pattern.matcher(enteredPassword);
+
+        if (!matcher.matches()) {
+            System.out.println("Password too long or short, or has wrong format");
+            session.setAttribute("error", "Your password must consist of 4-25 letters, numbers or undescores");
+            response.sendRedirect("StartPage");
+            return;
+        }
+
+        try {
+            Connection con = DBAccess.getConnection();
+
+            ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "' AND password='" + enteredPassword + "';", con);
+            r.next();
+            //if the username/password combination does not exist the user is sent back to the startPage.
+            if (r.getInt("count") == 0) {
+                System.out.println("The username or password is incorrect");
+                session.setAttribute("error", "The username or password is incorrect");
+                response.sendRedirect("StartPage");
+                return;
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Could not do querry");
+            ex.printStackTrace();
+            session.setAttribute("error", "Could not do querry");
+            response.sendRedirect("StartPage");
+            return;
+        } catch (Exception ex) {
+            System.out.println("Could not connect to the database");
+            session.setAttribute("error", "Could not connect to the database");
+            response.sendRedirect("StartPage");
+            return;
+        }
+
+        User user = new User(enteredUsername, enteredPassword);
+
+        session.setAttribute("user", user);
+
+        response.sendRedirect("Profile");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

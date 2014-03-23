@@ -73,7 +73,7 @@ public class SignUp extends HttpServlet {
         try {
             Connection con = DBAccess.getConnection();
 
-            ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "'", con);
+            ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "';", con);
             r.next();
             //if the username already exists the update proccess is cancelled and the user is returned to the startpage with an error message.
             if (r.getInt("count") == 1) {
