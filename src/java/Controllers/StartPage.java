@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,9 +32,19 @@ public class StartPage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
         
         
-        request.getRequestDispatcher("startPage.jsp").forward(request, response);
+        //if there is a session the jsp page is displayed with any potential error messages and then removes the error message 
+        if (session==null){
+            request.getRequestDispatcher("startPage.jsp").forward(request, response);                 
+        }else{
+            request.getRequestDispatcher("startPage.jsp").forward(request, response);
+            request.getSession().removeAttribute("error");
+        }
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

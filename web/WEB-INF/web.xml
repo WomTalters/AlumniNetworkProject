@@ -30,5 +30,16 @@ and open the template in the editor.
         <!-- You can change this-->
     </servlet-mapping>
     
+    <servlet>
+        <description></description>
+        <servlet-name>SignUp</servlet-name>
+        <servlet-class>Controllers.SignUp</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/SignUp</url-pattern>
+        <!-- You can change this-->
+    </servlet-mapping>
+    
     
 </web-app>

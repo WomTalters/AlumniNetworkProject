@@ -1,5 +1,6 @@
 - Log in
 - log out
+- sign up
 
 - edit profile : name, description
 - list schoolmates on profile

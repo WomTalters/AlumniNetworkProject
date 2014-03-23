@@ -1,2 +1,2 @@
-- add a confirm password field to the sign up form and make the sign up controller check the username doesn't already exist and that the passwords are the same
+- add a confirm password field to the sign up form and make the sign up controller check that the passwords are the same
 - make a nice favicon

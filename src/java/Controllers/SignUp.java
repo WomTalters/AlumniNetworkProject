@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Controllers;
 
+import Database.DBAccess;
 import Models.User;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,21 +39,51 @@ public class SignUp extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        
-        
+
         String enteredUsername = request.getParameter("username");
         String enteredPassword = request.getParameter("password");
+
+        //try to update the database with the new username and password
         
+        try {
+            Connection con = DBAccess.getConnection();
+            
+            ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "'", con);
+            r.next();
+            //if the username already exists the update proccess is cancelled and the user is returned to the startpage with an error message.
+            if (r.getInt("count") == 1) {
+                System.out.println("This username is taken");
+                session.setAttribute("error", "This username is already taken");
+                response.sendRedirect("StartPage");
+                return;
+            }
+            System.out.println("sfg");
+            DBAccess.doUpdate("INSERT INTO users (username, password) VALUES ('"+enteredUsername+"','"+enteredPassword+"');", con);
+            
+        } catch (SQLException ex) {
+            //if a query could not be excuted this error message is show on the start page
+            System.out.println("Could not do querry");
+            ex.printStackTrace();
+            session.setAttribute("error", "Could not do querry");
+            response.sendRedirect("StartPage");
+            return;
+
+        } catch (Exception ex) {
+            //if the database connection could not be made the user is redirected to the startPage which shows an error message
+
+            System.out.println("Could not connect to the database");
+            session.setAttribute("error", "Could not connect to the database");
+            response.sendRedirect("StartPage");
+            return;
+        }
+
         User user = new User(enteredUsername, enteredPassword);
-        
+
         session.setAttribute("user", user);
-        
-        
+
         //Makes the browser redirect to the profile servlet. This is done to make the url reflect the page it is on and to stop form resubmission.
         response.sendRedirect("Profile");
-        
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
