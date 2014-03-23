@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,12 +42,37 @@ public class SignUp extends HttpServlet {
 
         String enteredUsername = request.getParameter("username");
         String enteredPassword = request.getParameter("password");
+        
+        
+        //using regular expressions to make sure the entered username and password are the right length and format. 
+        Pattern pattern = Pattern.compile("\\w{4,25}");
+        Matcher matcher = pattern.matcher(enteredUsername);
+        
+        
+        if (!matcher.matches()) {
+            System.out.println("Username too long or short, or has wrong format");
+            session.setAttribute("error", "Your username must consist of 4-25 letters, numbers or underscores");
+            response.sendRedirect("StartPage");
+            return;
+        }
+        
+        pattern = Pattern.compile("\\w{4,25}");
+        matcher = pattern.matcher(enteredPassword);
+        
+        
+        if (!matcher.matches()) {
+            System.out.println("Password too long or short, or has wrong format");
+            session.setAttribute("error", "Your password must consist of 4-25 letters, numbers or undescores");
+            response.sendRedirect("StartPage");
+            return;
+        }
+        
+        
 
         //try to update the database with the new username and password
-        
         try {
             Connection con = DBAccess.getConnection();
-            
+
             ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "'", con);
             r.next();
             //if the username already exists the update proccess is cancelled and the user is returned to the startpage with an error message.
@@ -58,8 +83,8 @@ public class SignUp extends HttpServlet {
                 return;
             }
             System.out.println("sfg");
-            DBAccess.doUpdate("INSERT INTO users (username, password) VALUES ('"+enteredUsername+"','"+enteredPassword+"');", con);
-            
+            DBAccess.doUpdate("INSERT INTO users (username, password) VALUES ('" + enteredUsername + "','" + enteredPassword + "');", con);
+
         } catch (SQLException ex) {
             //if a query could not be excuted this error message is show on the start page
             System.out.println("Could not do querry");
