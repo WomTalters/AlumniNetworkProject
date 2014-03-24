@@ -75,6 +75,8 @@ public class Login extends HttpServlet {
             User user = new User(DBAccess.doQuery("SELECT * FROM users WHERE username='" + enteredUsername + "';", con));
             session.setAttribute("user", user);
             response.sendRedirect("Profile");
+            
+            con.close();
 
         } catch (SQLException ex) {
             System.out.println("Could not do querry");

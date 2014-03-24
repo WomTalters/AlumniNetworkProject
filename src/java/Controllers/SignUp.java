@@ -65,6 +65,7 @@ public class SignUp extends HttpServlet {
         //try to update the database with the new username and password
         try {
             Connection con = DBAccess.getConnection();
+            
 
             ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "';", con);
             r.next();
@@ -75,6 +76,7 @@ public class SignUp extends HttpServlet {
                 response.sendRedirect("StartPage");
 
             } else {
+                //TODO is this done in model?
                 DBAccess.doUpdate("INSERT INTO users (username, password, firstname, lastname) VALUES ('" + enteredUsername + "','"
                         + enteredPassword + "', '" + enteredFirstname + "', '" + enteredLastname + "');", con);
                 User user = new User(enteredUsername, enteredFirstname, enteredLastname);
@@ -84,6 +86,8 @@ public class SignUp extends HttpServlet {
                 //Makes the browser redirect to the profile servlet. This is done to make the url reflect the page it is on and to stop form resubmission.
                 response.sendRedirect("Profile");
             }
+            
+            con.close();
 
         } catch (SQLException ex) {
             //if a query could not be excuted this error message is show on the start page

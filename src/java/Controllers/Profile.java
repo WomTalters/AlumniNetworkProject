@@ -40,46 +40,43 @@ public class Profile extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-
         //if the user attribute is null (due to timeout etc) then the user need to login again
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
-            System.out.println("yay");
         } else {
+            
+            
             try {
                 Connection con = DBAccess.getConnection();
                 //if the url doesn't not contain a username the users profile is loaded 
                 User profileUser;
                 String requestedProfile = request.getParameter("u");
-                
+
                 if (requestedProfile == null) {
                     profileUser = (User) session.getAttribute("user");
-                    if (request.getAttribute("edit")=="true"){
-                        request.setAttribute("profileUser", profileUser);
-                        request.getRequestDispatcher("profile.jsp").forward(request, response);
-                    }
-                    
-                    
+         
+
                 } else {
 
                     //if the url contain a username the profile page loaded will belong to that user, unless the username is incorrect and then the users profile is loaded instead
-
                     if (requestedProfile.matches("\\w{4,25}")) {
-                        System.out.println(requestedProfile);
                         profileUser = new User(DBAccess.doQuery("SELECT * FROM users WHERE username='" + requestedProfile + "';", con));
-                        
+
                     } else {
                         profileUser = (User) session.getAttribute("user");
                     }
                 }
-                
+
                 request.setAttribute("profileUser", profileUser);
                 request.getRequestDispatcher("profile.jsp").forward(request, response);
+                con.close();
+                
+                
             } catch (SQLException ex) {
                 System.out.println("Bad query");
                 session.setAttribute("error", "Could not do query");
                 response.sendRedirect("StartPage");
-            } catch (Exception ex) {                
+            } catch (Exception ex) {
                 System.out.println("Something went wrong");
                 ex.printStackTrace();
                 session.setAttribute("error", "Something went Wrong :(");

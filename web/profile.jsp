@@ -17,30 +17,48 @@
 
     </head>
     <body>
+
+        <h1>${error}</h1>
+
         <c:if test="${profileUser.username == user.username}">
-            <a href="Profile?edit=true">Edit Profile</a>
+            <div id="editBox">
+                <form action="EditProfile" method="post">
+                    Edit firstname: <input type="text" name="firstname" value="${profileUser.firstname}"/>
+                    Edit lastname: <input type="text" name="lastname" value="${profileUser.lastname}"/>
+                    Edit description: <textarea name="description" rows="5" cols="5">${profileUser.description}</textarea>
+                    <input type="submit" value="Update">
+                </form>   
+            </div>
         </c:if>
-            
-            <a href="Logout">Logout</a>
+
+        <a href="Logout">Logout</a>
 
         <h1>${profileUser.firstname} ${profileUser.lastname}</h1>
         <div id="infoBox">
-            <c:if test="${profileUser.description == null}">
-                <p>
-                    Description:
-                    </br>
-                    <c:choose>
-                        <c:when test="${profileUser.username == user.username}">
-                            You haven't entered a description. You can add one
-                            by clicking the edit profile button.
+            Description:
+            </br>
+            <p>
+                <c:choose>
+                    <c:when test="${profileUser.description == null}">
 
-                        </c:when>
-                        <c:otherwise>
-                            This person hasn't entered a description
-                        </c:otherwise>    
 
-                    </c:choose>
-                </c:if>  
+                        <c:choose>
+                            <c:when test="${profileUser.username == user.username}">
+                                You haven't entered a description. You can add one
+                                by clicking using the edit box.
+
+                            </c:when>
+                            <c:otherwise>
+                                This person hasn't entered a description
+                            </c:otherwise>    
+
+                        </c:choose>
+                    </c:when>  
+                    <c:otherwise>
+                        ${profileUser.description}
+                    </c:otherwise>
+                </c:choose>
+
             </p>            
 
         </div>
