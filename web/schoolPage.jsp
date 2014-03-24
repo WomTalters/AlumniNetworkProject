@@ -6,12 +6,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<jsp:useBean id="school" type="Models.School" scope="request" />
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${school.schoolname}</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>${school.schoolname}</h1>
+        <p>Location: ${school.location} Website: ${school.webSiteAddress}</p>
     </body>
 </html>

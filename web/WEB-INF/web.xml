@@ -58,5 +58,15 @@ and open the template in the editor.
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <description></description>
+        <servlet-name>SchoolPage</servlet-name>
+        <servlet-class>Controllers.SchoolPage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SchoolPage</servlet-name>
+        <url-pattern>/SchoolPage</url-pattern>
+    </servlet-mapping>
+    
     
 </web-app>

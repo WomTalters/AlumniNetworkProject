@@ -1,6 +1,11 @@
 
 package Models;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.servlet.ServletException;
+
 /**
  *
  * @author Tom
@@ -43,6 +48,19 @@ public class School {
         this.webSiteAddress = webSiteAddress;
     }
     
+    public static School load(String schoolname, Connection con) throws ServletException{
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM schools WHERE schoolname=?;");
+            ps.setString(1, schoolname);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return new School(rs.getString("schoolname"),rs.getString("location"),rs.getString("websiteaddress"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServletException("Could not load School");
+            
+        }
+    }
     
     
     
