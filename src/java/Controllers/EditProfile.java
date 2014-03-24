@@ -9,12 +9,9 @@ import Database.DBAccess;
 import General.BadInputException;
 import General.InputCheck;
 import Models.User;
+import Models.UserDetails;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,38 +50,20 @@ public class EditProfile extends HttpServlet {
             try {
                 InputCheck.checkInput(1, 25, "firstname", enteredFirstname, "\\w");
                 InputCheck.checkInput(1, 25, "lastname", enteredLastname, "\\w");
-                InputCheck.checkInput(0,255,"description",enteredDescription, "[\\w\\s]{0,255}");
+                //TODO description should be able to accept a greater range of characters
+                InputCheck.checkInput(0, 255, "description", enteredDescription, "[\\w\\s\\.,!?;:\"]{0,255}");
             } catch (BadInputException ex) {
                 session.setAttribute("error", ex.getMessage());
                 response.sendRedirect("Profile");
                 return;
             }
-            //TODO needs thinking through
-            try{
-                System.out.println("update");
-                Connection con = DBAccess.getConnection();
-                User user = (User)session.getAttribute("user");
-                
-                
-                DBAccess.doUpdate("UPDATE users SET firstname='"+enteredFirstname+"', lastname='"+enteredLastname+"',description='"+enteredDescription+"' WHERE username='"+user.getUsername()+"'", con);
-                
-                
-                user.setDescription(enteredDescription);
-                user.setFirstname(enteredFirstname);
-                user.setLastname(enteredLastname);
-                response.sendRedirect("Profile");
-                
-            } catch (SQLException ex) {
-                System.out.println("Bad query");
-                session.setAttribute("error", "Could not do query");
-                response.sendRedirect("Profile");
-            } catch (Exception ex) {
-                System.out.println("Something went wrong");
-                ex.printStackTrace();
-                session.setAttribute("error", "Something went Wrong :(");
-                response.sendRedirect("Profile");
-            }
-                
+
+            Connection con = DBAccess.getConnection();
+            UserDetails userDetails = new UserDetails(((User) session.getAttribute("user")).getUsername(), enteredFirstname, enteredLastname, enteredDescription);
+
+            userDetails.save(userDetails, con, false);
+            response.sendRedirect("Profile");
+
         }
 
     }

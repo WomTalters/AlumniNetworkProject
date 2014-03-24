@@ -1,7 +1,10 @@
 package Models;
 
+import Database.DBAccess;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.servlet.ServletException;
 
 /**
  *
@@ -11,54 +14,13 @@ public class User {
 
     private String username;
     private String password;
-    private String firstname;
-    private String lastname;
-    private String description;
 
     public User() {
     }
-
+    
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public User(String username, String firstname, String lastname) {
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
-    public User(ResultSet rs) throws SQLException {
-        rs.next();
-        username = rs.getString("username");
-        firstname = rs.getString("firstname");
-        lastname = rs.getString("lastname");
-        description = rs.getString("description");
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getUsername() {
@@ -75,6 +37,48 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public boolean isValid(Connection con) throws ServletException{
+        try {
+            ResultSet rs = DBAccess.doQuery("SELECT COUNT (username) "
+                    + "FROM users "
+                    + "WHERE username='" + username + "' "
+                    + "AND password='" + password + "';", con);
+            rs.next();
+            return (rs.getInt("count") == 1);
+
+        } catch (Exception ex) {
+            throw new ServletException("validity checking problem");
+        } 
+    }
+
+    public boolean isAvailable(Connection con) throws ServletException{
+        try {
+            ResultSet rs = DBAccess.doQuery("SELECT COUNT (username) "
+                    + "FROM users "
+                    + "WHERE username='" + username + "';" ,con);
+            rs.next();
+            return (rs.getInt("count") == 0);
+
+        } catch (Exception ex) {
+            throw new ServletException("availblilty checking problem");
+        } 
+    }
+    
+
+    public void save(User user, Connection con) throws ServletException {
+        try {
+
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users VALUES(?,?);");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            throw new ServletException("Save problem");
+        }
+
     }
 
 }

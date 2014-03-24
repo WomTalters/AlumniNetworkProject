@@ -6,13 +6,10 @@
 package Controllers;
 
 import Database.DBAccess;
-import General.InputCheck;
 import Models.User;
+import Models.UserDetails;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,44 +41,28 @@ public class Profile extends HttpServlet {
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
         } else {
-            
-            
-            try {
-                Connection con = DBAccess.getConnection();
-                //if the url doesn't not contain a username the users profile is loaded 
-                User profileUser;
-                String requestedProfile = request.getParameter("u");
 
-                if (requestedProfile == null) {
-                    profileUser = (User) session.getAttribute("user");
-         
+            Connection con = DBAccess.getConnection();
+            //if the url doesn't not contain a username the users profile is loaded 
+            UserDetails userDetails;
+            String requestedProfile = request.getParameter("u");
+            if (requestedProfile == null) {
+                userDetails = UserDetails.load(((User) session.getAttribute("user")).getUsername(), con);
+            } else {
+                //TODO usernames that are the right format but don't exist need dealing with
+                //if the url contain a username the profile page loaded will belong to that user, unless the username is incorrect and then the users profile is loaded instead
+                if (requestedProfile.matches("\\w{4,25}")) {
+                    userDetails = UserDetails.load(requestedProfile, con);
 
                 } else {
-
-                    //if the url contain a username the profile page loaded will belong to that user, unless the username is incorrect and then the users profile is loaded instead
-                    if (requestedProfile.matches("\\w{4,25}")) {
-                        profileUser = new User(DBAccess.doQuery("SELECT * FROM users WHERE username='" + requestedProfile + "';", con));
-
-                    } else {
-                        profileUser = (User) session.getAttribute("user");
-                    }
+                    userDetails = UserDetails.load(((User) session.getAttribute("user")).getUsername(), con);
                 }
-
-                request.setAttribute("profileUser", profileUser);
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
-                con.close();
-                
-                
-            } catch (SQLException ex) {
-                System.out.println("Bad query");
-                session.setAttribute("error", "Could not do query");
-                response.sendRedirect("StartPage");
-            } catch (Exception ex) {
-                System.out.println("Something went wrong");
-                ex.printStackTrace();
-                session.setAttribute("error", "Something went Wrong :(");
-                response.sendRedirect("StartPage");
             }
+
+            request.setAttribute("userDetails", userDetails);
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+            DBAccess.closeConnection(con);
+
         }
 
     }

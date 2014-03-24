@@ -1,11 +1,17 @@
-	DROP TABLE users;
+DROP TABLE users;
+DROP TABLE userdetails;
 DROP TABLE schools;
 DROP TABLE schoolAttendance;
 
 CREATE TABLE users
 (
 username varchar(25),
-password varchar(25),
+password varchar(25)
+);
+
+CREATE TABLE userdetails
+(
+username varchar(25),
 firstname varchar(25),
 lastname varchar(25),
 description varchar(255)

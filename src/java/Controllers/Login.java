@@ -7,12 +7,11 @@ package Controllers;
 
 import Database.DBAccess;
 import General.InputCheck;
-import Models.User;
+import Models.UserDetails;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import General.BadInputException;
+import Models.User;
+import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,38 +58,18 @@ public class Login extends HttpServlet {
             return;
         }
 
-        try {
-            Connection con = DBAccess.getConnection();
+        Connection con = DBAccess.getConnection();
+        
+        User user = new User(enteredUsername, enteredPassword);
 
-            ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "' AND password='" + enteredPassword + "';", con);
-            r.next();
-            //if the username/password combination does not exist the user is sent back to the startPage.
-            if (r.getInt("count") == 0) {
-                System.out.println("The username or password is incorrect");
-                session.setAttribute("error", "The username or password is incorrect");
-                response.sendRedirect("StartPage");
-                return;
-            }
-
-            User user = new User(DBAccess.doQuery("SELECT * FROM users WHERE username='" + enteredUsername + "';", con));
+        if (user.isValid(con)) {
             session.setAttribute("user", user);
             response.sendRedirect("Profile");
-            
-            con.close();
-
-        } catch (SQLException ex) {
-            System.out.println("Could not do querry");
-            ex.printStackTrace();
-            session.setAttribute("error", "Could not do querry");
+        } else {
+            session.setAttribute("error", "The username or password is incorrect");
             response.sendRedirect("StartPage");
-
-        } catch (Exception ex) {
-            System.out.println("Could not connect to the database");
-            session.setAttribute("error", "Could not connect to the database");
-            response.sendRedirect("StartPage");
-
-        }
-
+        }    
+        DBAccess.closeConnection(con);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

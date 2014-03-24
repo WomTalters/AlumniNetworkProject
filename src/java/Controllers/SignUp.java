@@ -9,12 +9,11 @@ import Database.DBAccess;
 import General.BadInputException;
 import General.InputCheck;
 import Models.User;
+import Models.UserDetails;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,8 +45,6 @@ public class SignUp extends HttpServlet {
         String enteredPassword = request.getParameter("password");
         String enteredFirstname = request.getParameter("firstname");
         String enteredLastname = request.getParameter("lastname");
-        
-       
 
         //using regular expressions to make sure the entered feilds are the right length and format. 
         try {
@@ -60,49 +57,27 @@ public class SignUp extends HttpServlet {
             response.sendRedirect("StartPage");
             return;
         }
+        User user = new User(enteredUsername, enteredPassword);
+        UserDetails userDetails = new UserDetails(enteredUsername, enteredFirstname, enteredLastname);
+        Connection con = DBAccess.getConnection();
         
-
         //try to update the database with the new username and password
-        try {
-            Connection con = DBAccess.getConnection();
+        if (user.isAvailable(con)) {
+            //TODO user still saves if there is an error with the saving of userdetails
+            user.save(user, con);
+            userDetails.save(userDetails,con,true);
+            session.setAttribute("user", user);
+            response.sendRedirect("Profile");
             
-
-            ResultSet r = DBAccess.doQuery("SELECT COUNT (username) FROM users WHERE username='" + enteredUsername + "';", con);
-            r.next();
-            //if the username already exists the update proccess is cancelled and the user is returned to the startpage with an error message.
-            if (r.getInt("count") == 1) {
-                System.out.println("This username is taken");
-                session.setAttribute("error", "This username is already taken");
-                response.sendRedirect("StartPage");
-
-            } else {
-                //TODO is this done in model?
-                DBAccess.doUpdate("INSERT INTO users (username, password, firstname, lastname) VALUES ('" + enteredUsername + "','"
-                        + enteredPassword + "', '" + enteredFirstname + "', '" + enteredLastname + "');", con);
-                User user = new User(enteredUsername, enteredFirstname, enteredLastname);
-
-                session.setAttribute("user", user);
-
-                //Makes the browser redirect to the profile servlet. This is done to make the url reflect the page it is on and to stop form resubmission.
-                response.sendRedirect("Profile");
-            }
-            
-            con.close();
-
-        } catch (SQLException ex) {
-            //if a query could not be excuted this error message is show on the start page
-            System.out.println("Could not do querry");
-            ex.printStackTrace();
-            session.setAttribute("error", "Could not do querry");
+        } else {
+            session.setAttribute("error", "This username is already taken");
             response.sendRedirect("StartPage");
-
-        } catch (Exception ex) {
-            //if the database connection could not be made the user is redirected to the startPage which shows an error message
-            System.out.println("Could not connect to the database");
-            session.setAttribute("error", "Could not connect to the database");
-            response.sendRedirect("StartPage");
-
         }
+
+        
+         DBAccess.closeConnection(con);
+
+      
 
     }
 

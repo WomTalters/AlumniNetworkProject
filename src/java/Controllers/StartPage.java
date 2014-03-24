@@ -37,7 +37,6 @@ public class StartPage extends HttpServlet {
         if (session == null) {
             request.getRequestDispatcher("startPage.jsp").forward(request, response);
         } else if (session.getAttribute("user") == null) {
-
             request.getRequestDispatcher("startPage.jsp").forward(request, response);
             request.getSession().removeAttribute("error");
         }else{

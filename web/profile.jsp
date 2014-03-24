@@ -8,24 +8,24 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <jsp:useBean id="user" type="Models.User" scope="session" />
-<jsp:useBean id="profileUser" type="Models.User" scope="request" />
+<jsp:useBean id="userDetails" type="Models.UserDetails" scope="request" />
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${profileUser.firstname}'s Profile</title>
+        <title>${userDetails.firstname}'s Profile</title>
 
     </head>
     <body>
 
         <h1>${error}</h1>
 
-        <c:if test="${profileUser.username == user.username}">
+        <c:if test="${userDetails.username == user.username}">
             <div id="editBox">
                 <form action="EditProfile" method="post">
-                    Edit firstname: <input type="text" name="firstname" value="${profileUser.firstname}"/>
-                    Edit lastname: <input type="text" name="lastname" value="${profileUser.lastname}"/>
-                    Edit description: <textarea name="description" rows="5" cols="5">${profileUser.description}</textarea>
+                    Edit firstname: <input type="text" name="firstname" value="${userDetails.firstname}"/>
+                    Edit lastname: <input type="text" name="lastname" value="${userDetails.lastname}"/>
+                    Edit description: <textarea name="description" rows="5" cols="5">${userDetails.description}</textarea>
                     <input type="submit" value="Update">
                 </form>   
             </div>
@@ -33,19 +33,19 @@
 
         <a href="Logout">Logout</a>
 
-        <h1>${profileUser.firstname} ${profileUser.lastname}</h1>
+        <h1>${userDetails.firstname} ${userDetails.lastname}</h1>
         <div id="infoBox">
             Description:
             </br>
             <p>
                 <c:choose>
-                    <c:when test="${profileUser.description == null}">
+                    <c:when test="${userDetails.description == null}">
 
 
                         <c:choose>
-                            <c:when test="${profileUser.username == user.username}">
+                            <c:when test="${userDetails.username == user.username}">
                                 You haven't entered a description. You can add one
-                                by clicking using the edit box.
+                                by using the edit box.
 
                             </c:when>
                             <c:otherwise>
@@ -55,7 +55,7 @@
                         </c:choose>
                     </c:when>  
                     <c:otherwise>
-                        ${profileUser.description}
+                        ${userDetails.description}
                     </c:otherwise>
                 </c:choose>
 
