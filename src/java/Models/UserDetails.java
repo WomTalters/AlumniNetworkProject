@@ -89,7 +89,7 @@ public class UserDetails {
     }
     
     
-    public void save(UserDetails user, Connection con, boolean isNewUser) throws ServletException{
+    public void save(Connection con, boolean isNewUser) throws ServletException{
         try {            
             if (isNewUser){
                 PreparedStatement ps = con.prepareStatement("INSERT INTO userdetails VALUES(?,?,?);");

@@ -12,8 +12,6 @@ import Models.User;
 import Models.UserDetails;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,7 +63,7 @@ public class SignUp extends HttpServlet {
         if (user.isAvailable(con)) {
             //TODO user still saves if there is an error with the saving of userdetails
             user.save(user, con);
-            userDetails.save(userDetails,con,true);
+            userDetails.save(con,true);
             session.setAttribute("user", user);
             response.sendRedirect("Profile");
             
@@ -74,6 +72,8 @@ public class SignUp extends HttpServlet {
             response.sendRedirect("StartPage");
         }
 
+        
+        
         
          DBAccess.closeConnection(con);
 

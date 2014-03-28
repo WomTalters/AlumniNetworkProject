@@ -6,7 +6,8 @@
 package Controllers;
 
 import Database.DBAccess;
-import Models.School;
+import General.BadInputException;
+import General.InputCheck;
 import Models.SchoolAttendance;
 import Models.User;
 import java.io.IOException;
@@ -22,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Tom
  */
-@WebServlet(name = "SchoolPage_1", urlPatterns = {"/SchoolPage_1"})
-public class SchoolPage extends HttpServlet {
+@WebServlet(name = "StudentSchool", urlPatterns = {"/StudentSchool"})
+public class StudentSchool extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,43 +37,40 @@ public class SchoolPage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         HttpSession session = request.getSession();
 
-        //if the user attribute is null (due to timeout etc) then the user need to login again
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
         } else {
-            Connection con = DBAccess.getConnection();
-            //if the url doesn't not contain a username the users profile is loaded 
-            School school;
-            String requestedSchool = request.getParameter("s");
-            if (requestedSchool == null) {
+
+            String username = ((User) session.getAttribute("user")).getUsername();
+            String schoolname = request.getParameter("schoolname");
+            int startDate = Integer.parseInt(request.getParameter("startyear"));
+            int finishDate = Integer.parseInt(request.getParameter("finishyear"));
+
+            try {
+                InputCheck.checkInput(schoolname, "\\w{1,25}");
+                InputCheck.checkInput(request.getParameter("startyear"), "\\d{4}");
+                InputCheck.checkInput(request.getParameter("finishyear"), "\\d{4}");
+            } catch (BadInputException ex) {
+                session.setAttribute("error", ex.getMessage());
                 response.sendRedirect("Profile");
-                //TODO eventually have a school search page here perhaps
-            } else {
-                //TODO schoolnames that are the right format but don't exist need dealing with
-                //if the url contain a schoolname the  schoolPage loaded will belong to that school, unless the schoolname is incorrect and then the users profile is loaded instead
-                if (requestedSchool.matches("\\w{4,25}")) {
-                    school = School.load(requestedSchool, con);
-                    SchoolAttendance schAtt = null;
-                    if (!SchoolAttendance.isAvailable(((User) session.getAttribute("user")).getUsername(), requestedSchool, con)){
-                        schAtt = SchoolAttendance.load(requestedSchool, ((User) session.getAttribute("user")).getUsername(), con);                        
-                    }else{
-                        schAtt = new SchoolAttendance(((User)session.getAttribute("user")).getUsername(),school.getSchoolname()); 
-                    }
-                    request.setAttribute("schatt", schAtt);
-                    request.setAttribute("school", school);
-                    
-
-                    request.getRequestDispatcher("schoolPage.jsp").forward(request, response);
-
-                } else {
-                    response.sendRedirect("Profile");
-                }
+                return;
             }
 
+            SchoolAttendance schAtt = new SchoolAttendance(username, schoolname, startDate, finishDate);
+            Connection con = DBAccess.getConnection();
+            schAtt.save(con, schAtt.isAvailable(con));
             DBAccess.closeConnection(con);
+            response.sendRedirect("SchoolPage?s="+ schoolname);
+            
+            
+            
+            
+
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

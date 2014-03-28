@@ -41,10 +41,12 @@ public class User {
     
     public boolean isValid(Connection con) throws ServletException{
         try {
-            ResultSet rs = DBAccess.doQuery("SELECT COUNT (username) "
-                    + "FROM users "
-                    + "WHERE username='" + username + "' "
-                    + "AND password='" + password + "';", con);
+            
+            PreparedStatement ps = con.prepareStatement("SELECT COUNT (username) FROM users WHERE username=? AND password=?;");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            
             rs.next();
             return (rs.getInt("count") == 1);
 
@@ -55,9 +57,9 @@ public class User {
 
     public boolean isAvailable(Connection con) throws ServletException{
         try {
-            ResultSet rs = DBAccess.doQuery("SELECT COUNT (username) "
-                    + "FROM users "
-                    + "WHERE username='" + username + "';" ,con);
+            PreparedStatement ps = con.prepareStatement("SELECT COUNT (username) FROM users WHERE username=?;");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
             rs.next();
             return (rs.getInt("count") == 0);
 

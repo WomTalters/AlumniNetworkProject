@@ -61,7 +61,7 @@ public class EditProfile extends HttpServlet {
             Connection con = DBAccess.getConnection();
             UserDetails userDetails = new UserDetails(((User) session.getAttribute("user")).getUsername(), enteredFirstname, enteredLastname, enteredDescription);
 
-            userDetails.save(userDetails, con, false);
+            userDetails.save(con, false);
             response.sendRedirect("Profile");
 
         }
