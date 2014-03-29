@@ -33,8 +33,8 @@
             <c:otherwise>
                 You can edit these dates by changing the values and clicking update.
                 <form action="StudentSchool" method="post">
-                    Start year: <input name="startyear" type="number" />
-                    Finish year: <input name="finishyear" type="number" />
+                    Start year: <input name="startyear" type="number" value="${schatt.startDate}" />
+                    Finish year: <input name="finishyear" type="number" value="${schatt.finishDate}"/>
                     <input name="schoolname" type="hidden" value="${school.schoolname}"/>
                     <input type="submit" value="Update attendance"> 
                 </form>

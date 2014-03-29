@@ -106,7 +106,7 @@ public class SchoolAttendance {
                 ps.setInt(1, startDate);
                 ps.setInt(2, finishDate);
                 ps.setString(3, username);
-                ps.setString(3, schoolname);
+                ps.setString(4, schoolname);
                 ps.executeUpdate();
             }
 
@@ -119,17 +119,14 @@ public class SchoolAttendance {
     public static SchoolAttendance load(String username,String schoolname,Connection con) throws ServletException {
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance WHERE username=? AND schoolname=?;");
-            System.out.println(username);
-            System.out.println(schoolname);
             ps.setString(1, username);
             ps.setString(2, schoolname);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            System.out.println(rs.getString("username"));
-            //return new SchoolAttendance(rs.getString("username"),rs.getString("schoolname"),rs.getInt("startdate"),rs.getInt("finishdate"));
-            return new SchoolAttendance();
+
+            return new SchoolAttendance(rs.getString("username"),rs.getString("schoolname"),rs.getInt("startdate"),rs.getInt("finishdate"));
+            
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new ServletException("Could not load UserDetails");
         }
     }

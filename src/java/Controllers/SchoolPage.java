@@ -56,7 +56,7 @@ public class SchoolPage extends HttpServlet {
                     school = School.load(requestedSchool, con);
                     SchoolAttendance schAtt = null;
                     if (!SchoolAttendance.isAvailable(((User) session.getAttribute("user")).getUsername(), requestedSchool, con)){
-                        schAtt = SchoolAttendance.load(requestedSchool, ((User) session.getAttribute("user")).getUsername(), con);                        
+                        schAtt = SchoolAttendance.load(((User) session.getAttribute("user")).getUsername(),requestedSchool , con);                        
                     }else{
                         schAtt = new SchoolAttendance(((User)session.getAttribute("user")).getUsername(),school.getSchoolname()); 
                     }
