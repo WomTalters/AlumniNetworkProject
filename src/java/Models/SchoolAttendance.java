@@ -97,8 +97,9 @@ public class SchoolAttendance {
     
     public static ArrayList getSchoolmateList(String username, Connection con) throws ServletException{
         try{
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance Inner JOIN userDetails ON schoolAttendance.username=userDetails.username WHERE schoolname IN (SELECT schoolname FROM schoolAttendance WHERE username=?);");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance AS a Inner JOIN userDetails ON a.username=userDetails.username WHERE schoolname IN (SELECT schoolname FROM schoolAttendance WHERE username=? AND (a.startdate<=finishdate AND startdate<=a.finishdate)) AND a.username!=?;");
             ps.setString(1, username);
+            ps.setString(2, username);
             ResultSet rs = ps.executeQuery();
             ArrayList<UserDetails> profiles = new ArrayList();
             while (rs.next()){
