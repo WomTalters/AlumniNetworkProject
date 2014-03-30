@@ -50,7 +50,7 @@ public class StudentSchool extends HttpServlet {
             int finishDate = Integer.parseInt(request.getParameter("finishyear"));
 
             try {
-                InputCheck.checkInput(schoolname, "\\w{1,25}");
+                InputCheck.checkInput(schoolname, "[A_Za-z0-9 ]{4,25}");
                 InputCheck.checkInput(request.getParameter("startyear"), "\\d{4}");
                 InputCheck.checkInput(request.getParameter("finishyear"), "\\d{4}");
             } catch (BadInputException ex) {

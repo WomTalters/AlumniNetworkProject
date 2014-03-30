@@ -9,8 +9,10 @@ import Database.DBAccess;
 import Models.School;
 import Models.SchoolAttendance;
 import Models.User;
+import Models.UserDetails;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,7 +54,7 @@ public class SchoolPage extends HttpServlet {
             } else {
                 //TODO schoolnames that are the right format but don't exist need dealing with
                 //if the url contain a schoolname the  schoolPage loaded will belong to that school, unless the schoolname is incorrect and then the users profile is loaded instead
-                if (requestedSchool.matches("\\w{4,25}")) {
+                if (requestedSchool.matches("[A_Za-z0-9 ]{4,25}")) {
                     school = School.load(requestedSchool, con);
                     SchoolAttendance schAtt = null;
                     if (!SchoolAttendance.isAvailable(((User) session.getAttribute("user")).getUsername(), requestedSchool, con)){
@@ -60,6 +62,9 @@ public class SchoolPage extends HttpServlet {
                     }else{
                         schAtt = new SchoolAttendance(((User)session.getAttribute("user")).getUsername(),school.getSchoolname()); 
                     }
+                    
+                    ArrayList<UserDetails> profiles = SchoolAttendance.getAlumniList(requestedSchool, con);
+                    request.setAttribute("profiles", profiles);
                     request.setAttribute("schatt", schAtt);
                     request.setAttribute("school", school);
                     

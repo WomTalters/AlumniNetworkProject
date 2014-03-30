@@ -4,6 +4,8 @@ package Models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
@@ -76,6 +78,51 @@ public class SchoolAttendance {
         } catch (Exception ex) {
             throw new ServletException("availblilty checking problem");
         }
+    }
+    
+    public static ArrayList getSchoolList(String username, Connection con) throws ServletException{
+        try{
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance WHERE username=?;");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<SchoolAttendance> schoolList = new ArrayList();
+            while (rs.next()){
+                schoolList.add(new SchoolAttendance(rs.getString("username"),rs.getString("schoolname"),rs.getInt("startdate"),rs.getInt("finishdate")));
+            }
+            return schoolList;
+        } catch (SQLException ex) {
+            throw new ServletException("school list load problem");
+        }  
+    }
+    
+    public static ArrayList getSchoolmateList(String username, Connection con) throws ServletException{
+        try{
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance Inner JOIN userDetails ON schoolAttendance.username=userDetails.username WHERE schoolname IN (SELECT schoolname FROM schoolAttendance WHERE username=?);");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<UserDetails> profiles = new ArrayList();
+            while (rs.next()){
+                profiles.add(new UserDetails(rs.getString("username"),rs.getString("firstname"),rs.getString("lastname")));
+            }
+            return profiles;
+        } catch (SQLException ex) {
+            throw new ServletException("school list load problem");
+        }  
+    }
+    
+    public static ArrayList getAlumniList(String schoolname, Connection con) throws ServletException{
+        try{
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance Inner JOIN userDetails ON schoolAttendance.username=userDetails.username WHERE schoolAttendance.schoolname=?;");
+            ps.setString(1, schoolname);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<UserDetails> profiles = new ArrayList();
+            while (rs.next()){
+                profiles.add(new UserDetails(rs.getString("username"),rs.getString("firstname"),rs.getString("lastname")));
+            }
+            return profiles;
+        } catch (SQLException ex) {
+            throw new ServletException("school list load problem");
+        }  
     }
     
     public static boolean isAvailable(String username,String schoolname,Connection con) throws ServletException {

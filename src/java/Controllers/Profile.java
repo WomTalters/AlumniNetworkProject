@@ -6,10 +6,13 @@
 package Controllers;
 
 import Database.DBAccess;
+import Models.School;
+import Models.SchoolAttendance;
 import Models.User;
 import Models.UserDetails;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +61,15 @@ public class Profile extends HttpServlet {
                     userDetails = UserDetails.load(((User) session.getAttribute("user")).getUsername(), con);
                 }
             }
-
+            
+            ArrayList<SchoolAttendance> schools = SchoolAttendance.getSchoolList(userDetails.getUsername(), con);
+            ArrayList<SchoolAttendance> allschools = School.getSchoolList(con);
+            ArrayList<UserDetails> schoolmates = SchoolAttendance.getSchoolmateList(userDetails.getUsername(), con);
+            request.setAttribute("schoolmates", schoolmates);
+            request.setAttribute("schools", schools);
+            request.setAttribute("allschools", allschools);
+            
+            
             request.setAttribute("userDetails", userDetails);
             request.getRequestDispatcher("profile.jsp").forward(request, response);
             DBAccess.closeConnection(con);

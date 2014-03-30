@@ -4,6 +4,8 @@ package Models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
@@ -20,6 +22,10 @@ public class School {
         this.schoolname = schoolname;
         this.location = location;
         this.webSiteAddress = webSiteAddress;
+    }
+    
+    public School(String schoolname) {
+        this.schoolname = schoolname;
     }
     
     
@@ -46,6 +52,20 @@ public class School {
 
     public void setWebSiteAddress(String webSiteAddress) {
         this.webSiteAddress = webSiteAddress;
+    }
+    
+    public static ArrayList getSchoolList(Connection con) throws ServletException{
+        try{
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM schools;");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<School> schoolList = new ArrayList();
+            while (rs.next()){
+                schoolList.add(new School(rs.getString("schoolname")));
+            }
+            return schoolList;
+        } catch (SQLException ex) {
+            throw new ServletException("school list load problem");
+        }  
     }
     
     public static School load(String schoolname, Connection con) throws ServletException{
