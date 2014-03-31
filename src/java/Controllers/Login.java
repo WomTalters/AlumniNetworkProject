@@ -7,7 +7,6 @@ package Controllers;
 
 import Database.DBAccess;
 import General.InputCheck;
-import Models.UserDetails;
 import java.io.IOException;
 import General.BadInputException;
 import Models.User;

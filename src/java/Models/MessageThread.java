@@ -25,7 +25,7 @@ public class MessageThread {
     public MessageThread() {
     }
 
-    public MessageThread(String recipient, String seneder, String recFullName, String senFullname) {
+    public MessageThread(String recipient, String seneder, String recFullname, String senFullname) {
         this.recipient = recipient;
         this.seneder = seneder;
         this.messages = new ArrayList();
@@ -33,7 +33,7 @@ public class MessageThread {
         this.senFullname = senFullname;
     }
 
-    public MessageThread(int messageThreadId, String recipient, String seneder, String recFullName, String senFullname) {
+    public MessageThread(int messageThreadId, String recipient, String seneder, String recFullname, String senFullname) {
         this.messageThreadId = messageThreadId;
         this.recipient = recipient;
         this.seneder = seneder;
