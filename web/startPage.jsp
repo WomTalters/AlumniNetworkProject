@@ -9,32 +9,54 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="Style.css" rel="stylesheet" type="text/css">
         <title>Buddy Book</title>
     </head>
     <body>
+
+        <div id="header"> <br><br><br><br><br><br><br><br> </div>   
+
 
         <div id="error">           
             <h1>${error}</h1>
         </div>    
 
-        <div id="login">
-            <h1>Login</h1>
-            <form action="Login" method="post">
-                Username: <input type="text" name="username"/>
-                Password: <input type="password" name="password"/>
-                <input type="submit" value="login"/>
-            </form>
+        <div id="container">
+
+            <div id="leftnav">
+                <h1>Login</h1>
+                <form action="Login" method="post">
+                    Username: <br><input type="text" name="username"/><br><br>
+                    Password: <br><input type="password" name="password"/><br><br>
+                    <input type="submit" value="login"/>
+                </form>
+            </div>
+            
+            <div id="rightnav">
+                <br><br><br><br>
+                <ul>
+                    <li>Find your school!</li>
+                    <li>Find your friends!</li>
+                    <li>Stay in touch!</li>
+                    <li>Join Buddy Book today!</ul>
+                </ul>	
+
+            </div>
+            
+            <div id="body">
+                <br><br><br>
+                <h1>Sign up</h1>
+                <form action="SignUp" method="post">
+                    <br><br><br>
+                    Username: <input type="text" name="username"/>
+                    Password: <input type="password" name="password"/>
+                    <br><br>
+                    Firstname: <input type="text" name="firstname"/>
+                    Lastname: <input type="text" name="lastname"/><br><br>
+                    <input type="submit" value="Sign up"/>
+                </form>
+            </div>
         </div>
-        <div id="signUp">
-            <h1>Sign up</h1>
-            <form action="SignUp" method="post">
-                Username: <input type="text" name="username"/>
-                Password: <input type="password" name="password"/>
-                </br>
-                Firstname: <input type="text" name="firstname"/>
-                Lastname: <input type="text" name="lastname"/>
-                <input type="submit" value="Sign up"/>
-            </form>
-        </div>
+
     </body>
 </html>
