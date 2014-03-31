@@ -32,6 +32,8 @@ public class SchoolAttendance {
     public SchoolAttendance(String username, String schoolname) {
         this.username = username;
         this.schoolname = schoolname;
+        System.out.println("gogog");
+        System.out.println(startDate);
     }
 
     public String getUsername() {

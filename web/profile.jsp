@@ -26,7 +26,7 @@
 
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
-            <div class="logout"><a class="logout" href="Logout">Logout</a></div>
+            <div id="logout"><a class="logout" href="Logout">Logout</a></div>
         </div>
 
 

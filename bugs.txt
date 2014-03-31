@@ -1,4 +1,5 @@
 Bugs:
 school page doesn't list both aluni and schoolmates, 
-can't use appostophese
-messager uses usernames insteand of full names
+can't use appostophese,
+messager uses usernames insteand of full names,
+update text is not correct if you haven't been to that school
