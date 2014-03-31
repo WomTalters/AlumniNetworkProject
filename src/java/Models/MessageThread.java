@@ -3,6 +3,7 @@ package Models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 
@@ -19,6 +20,7 @@ public class MessageThread {
     private String recFullname;
     private String seneder;
     private String senFullname;
+    private Timestamp latestUpdateTime;
     
     
 
@@ -41,6 +43,14 @@ public class MessageThread {
         this.recFullname = recFullname;
         this.senFullname = senFullname;
     }
+
+    public Timestamp getLatestUpdateTime() {
+        return latestUpdateTime;
+    }
+
+    public void setLatestUpdateTime(Timestamp latestUpdateTime) {
+        this.latestUpdateTime = latestUpdateTime;
+    }  
 
     public int getMessageThreadId() {
         return messageThreadId;
@@ -112,17 +122,28 @@ public class MessageThread {
         }
     }
 
+    public static void saveLatestUpdateTime(int messageThreadId,Connection con) throws ServletException{
+        try {
+            PreparedStatement ps = con.prepareStatement("UPDATE messagethreads SET latestupdatetime=? WHERE messagethreadid=? ;");
+            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ps.setInt(2, messageThreadId);
+            ps.executeUpdate();                
+        } catch (Exception ex) {
+            throw new ServletException("update thread time problem");
+        }
+    }
+    
     public static ArrayList loadMessageThreads(String profileUser, String user, Connection con) throws ServletException {
 
         try {
             PreparedStatement ps;
 
             if (profileUser.equals(user)) {
-                ps = con.prepareStatement("SELECT * FROM messagethreads WHERE recipient=? OR sender=?;");
+                ps = con.prepareStatement("SELECT * FROM messagethreads WHERE recipient=? OR sender=? ORDER BY latestupdatetime DESC;");
                 ps.setString(1, user);
                 ps.setString(2, user);
             } else {
-                ps = con.prepareStatement("SELECT * FROM messagethreads WHERE recipient=? AND sender=?;");
+                ps = con.prepareStatement("SELECT * FROM messagethreads WHERE recipient=? AND sender=? ORDER BY latestupdatetime DESC;");
                 ps.setString(1, profileUser);
                 ps.setString(2, user);
             }

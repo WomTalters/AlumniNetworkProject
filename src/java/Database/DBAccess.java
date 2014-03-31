@@ -22,7 +22,7 @@ public class DBAccess {
             Class.forName(jdbcDriver);
             String jdbcUrl = "jdbc:postgresql:postgres";
             String username = "postgres";
-            String password = "";
+            String password = "hello";
             
             return DriverManager.getConnection(jdbcUrl, username, password);
         } catch (Exception ex) {

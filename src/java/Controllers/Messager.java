@@ -67,10 +67,12 @@ public class Messager extends HttpServlet {
             MessageThread mt = new MessageThread(recipient, ((User)session.getAttribute("user")).getUsername(),UserDetails.getNameFromUsername(recipient, con),UserDetails.getNameFromUsername(((User)session.getAttribute("user")).getUsername(), con));
             mt.saveNew(con);            
             Message message = new Message(messageText,mt.getMessageThreadId(),((User)session.getAttribute("user")).getUsername(),new Timestamp(System.currentTimeMillis()),UserDetails.getNameFromUsername(((User)session.getAttribute("user")).getUsername(), con));
+            MessageThread.saveLatestUpdateTime(message.getMessageThreadId(), con);
             message.save(con);
             response.sendRedirect("Profile" + "?u=" + fromProfile);
         } else {
             Message message = new Message(messageText,Integer.parseInt(request.getParameter("replyto")),((User)session.getAttribute("user")).getUsername(),new Timestamp(System.currentTimeMillis()),UserDetails.getNameFromUsername(((User)session.getAttribute("user")).getUsername(), con));
+            MessageThread.saveLatestUpdateTime(message.getMessageThreadId(), con);
             message.save(con);
             response.sendRedirect("Profile" + "?u=" + fromProfile);
         } 

@@ -2,6 +2,8 @@ DROP TABLE users;
 DROP TABLE userdetails;
 DROP TABLE schools;
 DROP TABLE schoolAttendance;
+DROP TABLE messages;
+DROP TABLE messageThreads;
 
 CREATE TABLE users
 (
@@ -52,6 +54,7 @@ datetimesent timestamp
 CREATE TABLE messagethreads
 (
 messagethreadid serial,
+latestupdatetime timestamp,
 sender varchar(25),
 recipient varchar(25)
 );
