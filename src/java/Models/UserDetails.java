@@ -76,6 +76,19 @@ public class UserDetails {
         this.username = username;
     }
     
+    public static String getNameFromUsername(String username, Connection con) throws ServletException{
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM userdetails WHERE username=?;");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getString("firstname") + " " + rs.getString("lastname");
+        } catch (Exception ex) {
+            throw new ServletException("Could not load UserDetails");
+        }
+       
+    }
+    
     public static UserDetails load(String username,Connection con) throws ServletException {
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM userdetails WHERE username=?;");
