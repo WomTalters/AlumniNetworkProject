@@ -14,13 +14,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${school.schoolname}</title>
+        <link href="Style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
 
-        <div id="headerBar">
-            <div class="title"><h1 class="title">Buddy Book</h1></div>
+        <div id="header">
+            <img id="headerImg" src="Logo.png" alt="Buddy_Book">
+
             <div class="logout"><a class="logout" href="Logout">Logout</a></div>
         </div>
+        
+        
 
         <div id="error">           
             <h1>${error}</h1>
@@ -28,17 +32,18 @@
         
         
 
-        <div class="contents">
+        <div class="container">
             
             
             
             <h1>${school.schoolname}</h1>
-            <div id="schoolDetails">
-                <p>Location: ${school.location} Website: ${school.webSiteAddress}</p>
+            <div id="leftnav">
+                School Details: <br><br><br>
+                <p>Location: ${school.location} <br><br>Website: ${school.webSiteAddress}</p>
             </div>
 
 
-            <div id="updateAttendance">
+            <div id="rightnav">
                 <c:choose>
                     <c:when test="${schatt.startDate == null}">
                         Did you go to this school? Add the your start and finish years if you did.</br>
@@ -64,8 +69,8 @@
 
 
 
-            <div id="profileList">
-                People who went to this school:
+            <div id="body">
+                People who went to this school: <br><br>
                 <c:forEach var="profile" items="${profiles}">
                     <div id="profileListComponent">
                         <a href="Profile?u=${profile.username}">${profile.firstname} ${profile.lastname}</a>
