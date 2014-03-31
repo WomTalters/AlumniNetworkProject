@@ -16,24 +16,30 @@ public class MessageThread {
 
     private int messageThreadId;
     private String recipient;
+    private String recFullname;
     private String seneder;
+    private String senFullname;
     
     
 
     public MessageThread() {
     }
 
-    public MessageThread(String recipient, String seneder) {
+    public MessageThread(String recipient, String seneder, String recFullName, String senFullname) {
         this.recipient = recipient;
         this.seneder = seneder;
         this.messages = new ArrayList();
+        this.recFullname = recFullname;
+        this.senFullname = senFullname;
     }
 
-    public MessageThread(int messageThreadId, String recipient, String seneder) {
+    public MessageThread(int messageThreadId, String recipient, String seneder, String recFullName, String senFullname) {
         this.messageThreadId = messageThreadId;
         this.recipient = recipient;
         this.seneder = seneder;
         this.messages = new ArrayList();
+        this.recFullname = recFullname;
+        this.senFullname = senFullname;
     }
 
     public int getMessageThreadId() {
@@ -53,6 +59,24 @@ public class MessageThread {
         
     }
 
+    public String getRecFullname() {
+        return recFullname;
+    }
+
+    public void setRecFullname(String recFullname) {
+        this.recFullname = recFullname;
+    }
+
+    public String getSenFullname() {
+        return senFullname;
+    }
+
+    public void setSenFullname(String senFullname) {
+        this.senFullname = senFullname;
+    }
+
+    
+    
     public String getRecipient() {
         return recipient;
     }
@@ -107,7 +131,7 @@ public class MessageThread {
             ArrayList<MessageThread> messageThreads = new ArrayList();
 
             while (rs.next()) {
-                messageThreads.add(new MessageThread(rs.getInt("messagethreadid"), rs.getString("recipient"), rs.getString("sender")));
+                messageThreads.add(new MessageThread(rs.getInt("messagethreadid"), rs.getString("recipient"), rs.getString("sender"),UserDetails.getNameFromUsername(rs.getString("recipient"), con),UserDetails.getNameFromUsername(rs.getString("sender"),con)));
             }
             
             for (MessageThread mt : messageThreads){

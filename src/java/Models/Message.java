@@ -18,6 +18,7 @@ public class Message {
     private int messageThreadId;
     private String messageText;
     private String sender;
+    private String senFullname;
     private Timestamp dateTimeSent;
 
     public Message() {
@@ -27,19 +28,30 @@ public class Message {
         return messageID;
     }
 
-    public Message(String messageText,int messageThreadId , String sender, Timestamp dateTimeSent) {
+    public Message(String messageText,int messageThreadId , String sender, Timestamp dateTimeSent, String senFullname) {
         this.messageText = messageText;
         this.sender = sender;
         this.dateTimeSent = dateTimeSent;
         this.messageThreadId = messageThreadId;
+        this.senFullname = senFullname;
     }
 
-    public Message(String messageText, String sender, Timestamp dateTimeSent) {
+    public Message(String messageText, String sender, Timestamp dateTimeSent, String senFullname) {
         this.messageText = messageText;
         this.sender = sender;
         this.dateTimeSent = dateTimeSent;
+        this.senFullname = senFullname;
     }
 
+    public String getSenFullname() {
+        return senFullname;
+    }
+
+    public void setSenFullname(String senFullname) {
+        this.senFullname = senFullname;
+    }
+
+    
 
     public int getMessageThreadId() {
         return messageThreadId;
@@ -106,7 +118,7 @@ public class Message {
             ArrayList<Message> messages = new ArrayList();
 
             while (rs.next()){
-                messages.add(new Message(rs.getString("messagetext"),rs.getString("sender"),rs.getTimestamp("datetimesent")));                
+                messages.add(new Message(rs.getString("messagetext"),rs.getString("sender"),rs.getTimestamp("datetimesent"),UserDetails.getNameFromUsername(rs.getString("sender"), con)));                
             }
             return messages;
         } catch (SQLException ex) {

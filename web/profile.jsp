@@ -70,19 +70,19 @@
 
 
                         <div id="messageBlock">
-                            Conversation with: ${messagethread.recipient}
+                            Conversation with: ${messagethread.recFullname}
                             <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
                                 <c:choose>
                                     <c:when test="${status.index==0}">
                                         <div id="message">
                                             <div id="messageText">${message.messageText}</div>
-                                            <div id="messageDetails">From: ${message.sender}  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                            <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
                                         <div id="messageReply">
                                             <div id="messageText">${message.messageText}</div>
-                                            <div id="messageDetails">From: ${message.sender}  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                            <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
                                         </div>
                                     </c:otherwise>
                                 </c:choose> 
