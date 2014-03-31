@@ -108,11 +108,11 @@
 
 
             <div id="body">
-                <h1 id="profileName">${userDetails.firstname} ${userDetails.lastname}</h1>
+                <div id="profileName">${userDetails.firstname} ${userDetails.lastname}</div>
 
                 <div id="infoBox">
                     <div id="description">
-                        Description:</br>
+                        Description:
                         <p>
                             <c:choose>
                                 <c:when test="${userDetails.description == null}">
@@ -170,7 +170,7 @@
 
             </div>
 
-
+        </div>
 
 
 
