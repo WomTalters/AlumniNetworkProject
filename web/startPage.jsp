@@ -39,6 +39,11 @@
                     <li>Find your friends!</li>
                     <li>Stay in touch!</li>
                     <li>Join Buddy Book today!</ul>
+                    <form action="adminStatistics" method="post" id="adminLogin">
+                        Username: <br><input type="text" name="username"/><br><br>
+                        Password: <br><input type="password" name="password"/><br><br>
+                        <input type="submit" value="login"/>   
+                    </form>
                 </ul>	
 
             </div>
