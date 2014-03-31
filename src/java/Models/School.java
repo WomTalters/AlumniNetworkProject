@@ -77,8 +77,7 @@ public class School {
             return new School(rs.getString("schoolname"),rs.getString("location"),rs.getString("websiteaddress"));
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new ServletException("Could not load School");
-            
+            throw new ServletException("Could not load School");            
         }
     }
     

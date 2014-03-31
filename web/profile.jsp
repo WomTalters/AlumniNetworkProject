@@ -12,6 +12,7 @@
 <jsp:useBean id="userDetails" type="Models.UserDetails" scope="request" />
 
 
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -77,69 +78,93 @@
                         </c:choose>
                     </p>                                        
                 </div>
-                
-                <div id="userSchoolBox">
-                    Attended Schools:
-                    <c:forEach var="school" items="${schools}">
-                        <div id="userSchoolBoxComponent">
-                            School : <a href="SchoolPage?s=${school.schoolname}">${school.schoolname}</a></br> 
-                            Started in: ${school.startDate}</br> 
-                            Finished in: ${school.finishDate}
-                        </div>
-                    </c:forEach>
-                </div>
-
-                <div id="schoolmateBox">
-                    Schoolmates:
-                    <c:forEach var="profile" items="${schoolmates}">
-
-                        <div id="schoolmateBoxComponent">
-                            <a href="Profile?u=${profile.username}">${profile.firstname} ${profile.lastname}</a> 
-                        </div>          
-                    </c:forEach>
-                </div>
-                
-                <div id="schoolBox">
-                    All Schools:
-                    <c:forEach var="school" items="${allschools}">
-                        <div id="schoolBoxComponent">
-                            School : <a href="SchoolPage?s=${school.schoolname}">${school.schoolname}</a></br> 
-                        </div>
-                    </c:forEach>
-                </div>
-                
-                <div id="messages">
-                    <div id="messageBlock">
-                        <div id="message">
-                            <div id="messageText">hello fred</div>
-                            <div id="messageDetails">From bert</div>
-                        </div>
-                        <div id="messageReply">
-                            <div id="messageText">fuck off</div>
-                            <div id="messageDetails">From fred</div>
-                        </div>
+            </div>
+            <div id="userSchoolBox">
+                Attended Schools:
+                <c:forEach var="school" items="${schools}">
+                    <div id="userSchoolBoxComponent">
+                        School : <a href="SchoolPage?s=${school.schoolname}">${school.schoolname}</a></br> 
+                        Started in: ${school.startDate}</br> 
+                        Finished in: ${school.finishDate}
                     </div>
+                </c:forEach>
+            </div>
+
+            <div id="schoolmateBox">
+                Schoolmates:
+                <c:forEach var="profile" items="${schoolmates}">
+
+                    <div id="schoolmateBoxComponent">
+                        <a href="Profile?u=${profile.username}">${profile.firstname} ${profile.lastname}</a> 
+                    </div>          
+                </c:forEach>
+            </div>
+
+            <div id="schoolBox">
+                All Schools:
+                <c:forEach var="school" items="${allschools}">
+                    <div id="schoolBoxComponent">
+                        School : <a href="SchoolPage?s=${school.schoolname}">${school.schoolname}</a></br> 
+                    </div>
+                </c:forEach>
+            </div>
+
+
+
+
+            <div id="messages">
+                <div id="writeMessage">
+
+                    <form action="Messager" method="POST">
+                        <textarea name="messagetext" rows="1" cols="10"></textarea>
+                        <input type="hidden" name="recipient" value="${userDetails.username}">
+                        <input type="submit" value="send" >                        
+                    </form>
+
+                </div>
+
+                <c:forEach var="messagethread" items="${messagethreads}">
+                 
+                        
                     
                     <div id="messageBlock">
-                        <div id="message">
-                            <div id="messageText">give me the money</div>
-                            <div id="messageDetails">From bill</div>
-                        </div>
-                        <div id="messageReply">
-                            <div id="messageText">i don't have any</div>
-                            <div id="messageDetails">From bert</div>
-                        </div>
-                        <div id="messageBlock">                        
-                        <div id="messageReply">
-                            <div id="messageText">alright i'll take ur kidney then</div>
-                            <div id="messageDetails">From bill</div>
-                        </div>
-                    </div>
-                    </div>
-                    
-                </div>
-                    
+                        <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
+                            <c:choose>
+                                <c:when test="${status.index==0}">
+                                    <div id="message">
+                                        <div id="messageText">${message.messageText}</div>
+                                        <div id="messageDetails">From: ${message.sender}  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div id="messageReply">
+                                        <div id="messageText">${message.messageText}</div>
+                                        <div id="messageDetails">From: ${message.sender}  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose> 
 
-            </div>    
+                        </c:forEach>
+
+                        <div id="writeReply">
+                            <form action="Messager" method="POST">
+                                <textarea name="messagetext" rows="1" cols="10"></textarea>
+                                <input type="hidden" name="replyto" value="${messagethread.messageThreadId}">
+                                <input type="submit" value="reply">
+                            </form>    
+                        </div>
+                    </div>
+                                
+                </c:forEach>        
+
+
+
+
+
+
+
+            </div>
+
+
     </body>
 </html>

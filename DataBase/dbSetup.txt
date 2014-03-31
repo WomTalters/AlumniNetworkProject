@@ -31,3 +31,23 @@ userName varchar(25),
 startdate int,
 finishdate int
 );
+
+
+CREATE TABLE messages
+(
+messageid serial,
+messagethreadid int,
+messagetext varchar(255),
+sender varchar(25),
+datetimesent timestamp
+ 
+);
+
+CREATE TABLE messagethreads
+(
+messagethreadid serial,
+sender varchar(25),
+recipient varchar(25)
+
+
+);

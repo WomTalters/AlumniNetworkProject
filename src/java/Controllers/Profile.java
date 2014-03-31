@@ -6,6 +6,7 @@
 package Controllers;
 
 import Database.DBAccess;
+import Models.MessageThread;
 import Models.School;
 import Models.SchoolAttendance;
 import Models.User;
@@ -65,6 +66,9 @@ public class Profile extends HttpServlet {
             ArrayList<SchoolAttendance> schools = SchoolAttendance.getSchoolList(userDetails.getUsername(), con);
             ArrayList<SchoolAttendance> allschools = School.getSchoolList(con);
             ArrayList<UserDetails> schoolmates = SchoolAttendance.getSchoolmateList(userDetails.getUsername(), con);
+            ArrayList<MessageThread> messageThreads = MessageThread.loadMessageThreads(userDetails.getUsername(), ((User) session.getAttribute("user")).getUsername(), con);
+            
+            request.setAttribute("messagethreads", messageThreads);
             request.setAttribute("schoolmates", schoolmates);
             request.setAttribute("schools", schools);
             request.setAttribute("allschools", allschools);
@@ -72,6 +76,7 @@ public class Profile extends HttpServlet {
             
             request.setAttribute("userDetails", userDetails);
             request.getRequestDispatcher("profile.jsp").forward(request, response);
+            request.getSession().removeAttribute("error");
             DBAccess.closeConnection(con);
 
         }

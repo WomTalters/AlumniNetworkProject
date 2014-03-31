@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Controllers;
 
 import Database.DBAccess;
-import Models.School;
-import Models.SchoolAttendance;
+import General.BadInputException;
+import General.InputCheck;
+import Models.Message;
+import Models.MessageThread;
 import Models.User;
-import Models.UserDetails;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +27,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Tom
  */
-@WebServlet(name = "SchoolPage_1", urlPatterns = {"/SchoolPage_1"})
-public class SchoolPage extends HttpServlet {
+@WebServlet(name = "Messager", urlPatterns = {"/Messager"})
+public class Messager extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,47 +42,40 @@ public class SchoolPage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-
-        //if the user attribute is null (due to timeout etc) then the user need to login again
+        String messageText = request.getParameter("messagetext");
+        String recipient = request.getParameter("recipient");
+        
+        String fromProfile = request.getParameter("from");
+        if (fromProfile == null) {
+            fromProfile = "";
+        }
+        
+        try {
+            InputCheck.checkInput("message", messageText, "[\\w\\s\\.,!?;:\"]{1,255}");            
+        } catch (BadInputException ex) {
+            session.setAttribute("error", ex.getMessage());
+            response.sendRedirect("Profile" + "?u=" +fromProfile);
+            return;
+        }
+        
+        Connection con = DBAccess.getConnection();
+        
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
+        } else if (request.getParameter("replyto") == null) {
+            MessageThread mt = new MessageThread(recipient, ((User)session.getAttribute("user")).getUsername());
+            mt.saveNew(con);            
+            Message message = new Message(messageText,mt.getMessageThreadId(),((User)session.getAttribute("user")).getUsername(),new Timestamp(System.currentTimeMillis()));
+            message.save(con);
+            response.sendRedirect("Profile" + "?u=" + fromProfile);
         } else {
-            Connection con = DBAccess.getConnection();
-            //if the url doesn't not contain a username the users profile is loaded 
-            School school;
-            String requestedSchool = request.getParameter("s");
-            if (requestedSchool == null) {
-                response.sendRedirect("Profile");
-                //TODO eventually have a school search page here perhaps
-            } else {
-                //TODO schoolnames that are the right format but don't exist need dealing with
-                //if the url contain a schoolname the  schoolPage loaded will belong to that school, unless the schoolname is incorrect and then the users profile is loaded instead
-                if (requestedSchool.matches("[A_Za-z0-9 ]{4,25}")) {
-                    school = School.load(requestedSchool, con);
-                    SchoolAttendance schAtt = null;
-                    if (!SchoolAttendance.isAvailable(((User) session.getAttribute("user")).getUsername(), requestedSchool, con)){
-                        schAtt = SchoolAttendance.load(((User) session.getAttribute("user")).getUsername(),requestedSchool , con);                        
-                    }else{
-                        schAtt = new SchoolAttendance(((User)session.getAttribute("user")).getUsername(),school.getSchoolname()); 
-                    }
-                    
-                    ArrayList<UserDetails> profiles = SchoolAttendance.getAlumniList(requestedSchool, con);
-                    request.setAttribute("profiles", profiles);
-                    request.setAttribute("schatt", schAtt);
-                    request.setAttribute("school", school);
-                    
-
-                    request.getRequestDispatcher("schoolPage.jsp").forward(request, response);
-                    request.getSession().removeAttribute("error");
-
-                } else {
-                    response.sendRedirect("Profile");
-                    request.getSession().removeAttribute("error");
-                }
-            }
-
-            DBAccess.closeConnection(con);
-        }
+            Message message = new Message(messageText,Integer.parseInt(request.getParameter("replyto")),((User)session.getAttribute("user")).getUsername(),new Timestamp(System.currentTimeMillis()));
+            message.save(con);
+            response.sendRedirect("Profile" + "?u=" + fromProfile);
+        } 
+        
+        DBAccess.closeConnection(con);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
