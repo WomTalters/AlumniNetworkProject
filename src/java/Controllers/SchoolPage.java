@@ -39,7 +39,7 @@ public class SchoolPage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-
+        
         //if the user attribute is null (due to timeout etc) then the user need to login again
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
@@ -49,12 +49,13 @@ public class SchoolPage extends HttpServlet {
             School school;
             String requestedSchool = request.getParameter("s");
             if (requestedSchool == null) {
+                
                 response.sendRedirect("Profile");
                 //TODO eventually have a school search page here perhaps
             } else {
                 //TODO schoolnames that are the right format but don't exist need dealing with
                 //if the url contain a schoolname the  schoolPage loaded will belong to that school, unless the schoolname is incorrect and then the users profile is loaded instead
-                if (requestedSchool.matches("[A_Za-z0-9 ]{4,25}")) {
+                if (requestedSchool.matches("[\\w ]{4,25}")) {
                     school = School.load(requestedSchool, con);
                     SchoolAttendance schAtt = null;
                     if (!SchoolAttendance.isAvailable(((User) session.getAttribute("user")).getUsername(), requestedSchool, con)){
@@ -73,6 +74,7 @@ public class SchoolPage extends HttpServlet {
                     request.getSession().removeAttribute("error");
 
                 } else {
+                   
                     response.sendRedirect("Profile");
                     request.getSession().removeAttribute("error");
                 }
