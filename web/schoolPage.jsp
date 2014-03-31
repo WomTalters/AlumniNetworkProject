@@ -20,7 +20,6 @@
 
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
-
             <div class="logout"><a class="logout" href="Logout">Logout</a></div>
         </div>
         
@@ -32,11 +31,7 @@
         
         
 
-        <div class="container">
-            
-            
-            
-            <h1>${school.schoolname}</h1>
+        <div id="container">
             <div id="leftnav">
                 School Details: <br><br><br>
                 <p>Location: ${school.location} <br><br>Website: ${school.webSiteAddress}</p>
@@ -70,6 +65,7 @@
 
 
             <div id="body">
+            <div id ="profileName">${school.schoolname}</div>
                 People who went to this school: <br><br>
                 <c:forEach var="profile" items="${profiles}">
                     <div id="profileListComponent">

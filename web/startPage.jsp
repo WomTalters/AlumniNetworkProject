@@ -14,7 +14,9 @@
     </head>
     <body>
 
-        <div id="header"> <br><br><br><br><br><br><br><br> </div>   
+        <div id="header">
+            <img id="headerImg" src="Logo.png" alt="Buddy_Book">
+        </div>  
 
 
         <div id="error">           
