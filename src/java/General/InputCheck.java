@@ -55,7 +55,7 @@ public class InputCheck {
      */
     public static void checkInput(int min,int max,String inputName, String input, String characterClass) throws BadInputException {
         try{
-            checkInput(input, characterClass + "{"+min+","+max+"}");
+            checkInput(input, "["+characterClass +"]"+ "{"+min+","+max+"}");
         }catch (BadInputException ex){
             throw new BadInputException(inputName+ " has the wrong format or has a length greater than "+max+" or less than "+min);
         }

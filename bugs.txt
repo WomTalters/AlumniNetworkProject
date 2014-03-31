@@ -1,0 +1,4 @@
+Bugs:
+school page doesn't list both aluni and schoolmates, 
+can't use appostophese
+messager uses usernames insteand of full names

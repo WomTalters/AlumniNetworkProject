@@ -27,7 +27,7 @@
         <div id="header">
 
 
-            <br><br><br><br><br><br><br><br>
+            <img id="headerImg" src="Logo.png" alt="Buddy_Book">
 
             <div class="logout"><a class="logout" href="Logout">Logout</a></div>
 
@@ -45,7 +45,7 @@
                     <form action="EditProfile" method="post">
                         Edit firstname: <input type="text" name="firstname" value="${userDetails.firstname}"/><br><br>
                         Edit lastname: <input type="text" name="lastname" value="${userDetails.lastname}"/><br><br>
-                        Edit description: <textarea name="description" rows="5" cols="5">${userDetails.description}</textarea><br><br>
+                        Edit description: <textarea name="description" rows="14" cols="20">${userDetails.description}</textarea><br><br>
                         <input type="submit" value="Update">
                     </form>   
 
@@ -59,6 +59,7 @@
                         <form action="Messager" method="POST">
                             <textarea name="messagetext" rows="1" cols="10"></textarea>
                             <input type="hidden" name="recipient" value="${userDetails.username}">
+                            <input type="hidden" name="from" value="${userDetails.username}">
                             <input type="submit" value="send" >                        
                         </form>
 
@@ -69,6 +70,7 @@
 
 
                         <div id="messageBlock">
+                            Conversation with: ${messagethread.recipient}
                             <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
                                 <c:choose>
                                     <c:when test="${status.index==0}">
@@ -91,6 +93,7 @@
                                 <form action="Messager" method="POST">
                                     <textarea name="messagetext" rows="1" cols="10"></textarea>
                                     <input type="hidden" name="replyto" value="${messagethread.messageThreadId}">
+                                    <input type="hidden" name="from" value="${userDetails.username}">
                                     <input type="submit" value="reply">
                                 </form>    
                             </div>
