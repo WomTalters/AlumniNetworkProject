@@ -48,6 +48,4 @@ CREATE TABLE messagethreads
 messagethreadid serial,
 sender varchar(25),
 recipient varchar(25)
-
-
 );
