@@ -19,6 +19,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -41,6 +42,7 @@ public class adminStatistics extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession(true);
         
         Connection connection = DBAccess.getConnection();
         try {
@@ -56,7 +58,27 @@ public class adminStatistics extends HttpServlet {
             out.println("<title>Servlet adminStatistics</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet adminStatistics at " + request.getContextPath() + "</h1>");
+            
+            String username=request.getParameter("username");
+            String password=request.getParameter("password");
+            boolean valid=false;
+            
+            sqlStatement="SELECT * FROM admin;";
+            resultSet = statement.executeQuery(sqlStatement);            
+            
+            resultSet.next();
+          
+            if (resultSet.getString("username").equals(username) && resultSet.getString("password").equals(password)){
+                valid=true;
+            }
+            
+            
+            if (valid==true){    
+            }else{
+                session.setAttribute("error", "The username or password is incorrect");
+                response.sendRedirect("StartPage");
+                return;
+            }
             
             sqlStatement="SELECT COUNT(username) FROM users;";
             resultSet = statement.executeQuery(sqlStatement);            

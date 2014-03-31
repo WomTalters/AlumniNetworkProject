@@ -9,6 +9,12 @@ username varchar(25),
 password varchar(25)
 );
 
+CREATE TABLE admin
+(
+username varchar(25),
+password varchar(25)
+);
+
 CREATE TABLE userdetails
 (
 username varchar(25),
