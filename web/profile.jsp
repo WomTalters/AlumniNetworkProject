@@ -39,8 +39,8 @@
                 <c:if test="${userDetails.username == user.username}">
                     <br><br>    
                     <form action="EditProfile" method="post">
-                        Edit firstname: <input type="text" name="firstname" value="${userDetails.firstname}"/><br><br>
-                        Edit lastname: <input type="text" name="lastname" value="${userDetails.lastname}"/><br><br>
+                        Edit first name: <input type="text" name="firstname" value="${userDetails.firstname}"/><br><br>
+                        Edit last name: <input type="text" name="lastname" value="${userDetails.lastname}"/><br><br>
                         Edit description: <textarea name="description" rows="14" cols="20">${userDetails.description}</textarea><br><br>
                         <input type="submit" value="Update">
                     </form>   
