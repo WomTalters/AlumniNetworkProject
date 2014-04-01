@@ -68,5 +68,15 @@ and open the template in the editor.
         <url-pattern>/SchoolPage</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <description></description>
+        <servlet-name>Admin</servlet-name>
+        <servlet-class>Controllers.Admin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Admin</servlet-name>
+        <url-pattern>/Admin </url-pattern>
+    </servlet-mapping>
+    
     
 </web-app>

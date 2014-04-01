@@ -1,7 +1,5 @@
 Bugs:
 school page doesn't list both aluni and schoolmates, 
-can't use appostophese,
-messager uses usernames insteand of full names,
-update text is not correct if you haven't been to that school
-convosaation with- shows same name on both profiles
-messages threads from another person don't appear on their profile
+admin page
+
+

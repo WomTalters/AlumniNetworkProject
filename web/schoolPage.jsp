@@ -45,11 +45,11 @@
                 <div id="rightnav">
                     <div id="schoolDate">
                         <c:choose>
-                            <c:when test="${schatt.startDate == null}">
-                                Did you go to this school? Add the your start and finish years if you did.</br>
+                            <c:when test="${schatt.startDate == 0}">
+                                Did you go to this school? Add the your start and finish years if you did.</br><br>
                                 <form action="StudentSchool" method="post">
-                                    Start year: <input name="startyear" type="number" />
-                                    Finish year: <input name="finishyear" type="number" />
+                                    Start year: <input name="startyear" type="number" /><br>
+                                    Finish year: <input name="finishyear" type="number" /><br><br>
                                     <input name="schoolname" type="hidden" value="${school.schoolname}"/>
                                     <input type="submit" value="Add attendance"> 
                                 </form>

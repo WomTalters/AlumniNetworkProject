@@ -52,7 +52,7 @@ public class Messager extends HttpServlet {
         }
         
         try {
-            InputCheck.checkInput("message", messageText, "[\\w\\s\\.,!?;:\"]{1,255}");            
+            InputCheck.checkInput("message", messageText, "[\\w\\s\\.,'!?;:\"]{1,255}");            
         } catch (BadInputException ex) {
             session.setAttribute("error", ex.getMessage());
             response.sendRedirect("Profile" + "?u=" +fromProfile);

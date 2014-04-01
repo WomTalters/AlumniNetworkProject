@@ -66,6 +66,7 @@ public class SchoolPage extends HttpServlet {
                         schAtt = new SchoolAttendance(((User)session.getAttribute("user")).getUsername(),school.getSchoolname()); 
                     }
                     
+                    
                     ArrayList<UserDetails> profiles = SchoolAttendance.getAlumniList(requestedSchool, con);
                     request.setAttribute("profiles", profiles);
                     request.setAttribute("schatt", schAtt);

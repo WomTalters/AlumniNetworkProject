@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  * @author ckk13dzu
  */
 @WebServlet(name = "adminStatistics", urlPatterns = {"/adminStatistics"})
-public class adminStatistics extends HttpServlet {
+public class Admin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -129,9 +129,9 @@ public class adminStatistics extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(adminStatistics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(adminStatistics.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }

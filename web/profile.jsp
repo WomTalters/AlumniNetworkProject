@@ -67,43 +67,64 @@
 
                     <c:forEach var="messagethread" items="${messagethreads}">
 
-
-
                         <div id="messageBlock">
-                            <div id="convosationPartner">Conversation with: ${messagethread.recFullname}<div id="convosationPartner"></div>
-
-                                <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
-                                    <c:choose>
-                                        <c:when test="${status.index==0}">
-                                            <div id="message">
-                                                <div id="messageText">${message.messageText}</div>
-                                                <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div id="messageReply">
-                                                <div id="messageText">${message.messageText}</div>
-                                                <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
-                                            </div>
-                                        </c:otherwise>
-                                    </c:choose> 
-
-                                </c:forEach>
-
-                                <div id="writeReply">
-                                    <form action="Messager" method="POST">
-                                        <textarea id="writeMessageArea" name="messagetext" rows="2" cols="10"></textarea>
-                                        <input type="hidden" name="replyto" value="${messagethread.messageThreadId}">
-                                        <input type="hidden" name="from" value="${userDetails.username}">
-                                        <input id="messageSend" type="submit" value="reply">
-                                    </form>    
-                                </div>
+                            <div id="convosationPartner">Conversation with:<br> 
+                                
+                                <c:choose>
+                                    <c:when test="${messagethread.seneder==user.username}">
+                                        ${messagethread.recFullname}                                        
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${messagethread.senFullname}
+                                    </c:otherwise>                                                                    
+                                </c:choose>
+                                
+                                
+                                
+                                
+                                
+                                
+                                <c:if test="${user.username==messagethread.recFullname}">
+                                    ${messagethread.recFullname} 
+                                </c:if>
+                                
+                                <c:if test="${user.username==messagethread.recFullname}">
+                                    ${messagethread.recFullname} 
+                                </c:if>
+                                
+                                
+                                
                             </div>
 
-                        </c:forEach>        
+                            <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
+                                <c:choose>
+                                    <c:when test="${status.index==0}">
+                                        <div id="message">
+                                            <div id="messageText">${message.messageText}</div>
+                                            <div id="messageDetails">From: ${message.senFullname}<br>  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div id="messageReply">
+                                            <div id="messageText">${message.messageText}</div>
+                                            <div id="messageDetails">From: ${message.senFullname}<br>  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose> 
 
+                            </c:forEach>
 
-                    </div>
+                            <div id="writeReply">
+                                <form action="Messager" method="POST">
+                                    <textarea id="writeMessageArea" name="messagetext" rows="2" cols="10"></textarea>
+                                    <input type="hidden" name="replyto" value="${messagethread.messageThreadId}">
+                                    <input type="hidden" name="from" value="${userDetails.username}">
+                                    <input id="messageSend" type="submit" value="reply">
+                                </form>    
+                            </div>
+                        </div>
+
+                    </c:forEach>        
 
                 </div>
             </div>

@@ -7,7 +7,6 @@ package Controllers;
 
 import Database.DBAccess;
 import Models.MessageThread;
-import Models.School;
 import Models.SchoolAttendance;
 import Models.User;
 import Models.UserDetails;

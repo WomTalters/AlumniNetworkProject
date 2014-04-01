@@ -143,9 +143,11 @@ public class MessageThread {
                 ps.setString(1, user);
                 ps.setString(2, user);
             } else {
-                ps = con.prepareStatement("SELECT * FROM messagethreads WHERE recipient=? AND sender=? ORDER BY latestupdatetime DESC;");
+                ps = con.prepareStatement("SELECT * FROM messagethreads WHERE (recipient=? AND sender=?) OR (recipient=? AND sender=?) ORDER BY latestupdatetime DESC;");
                 ps.setString(1, profileUser);
                 ps.setString(2, user);
+                ps.setString(3, user);
+                ps.setString(4, profileUser);
             }
 
             ResultSet rs = ps.executeQuery();

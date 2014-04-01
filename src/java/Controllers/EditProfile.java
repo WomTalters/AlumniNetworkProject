@@ -51,7 +51,7 @@ public class EditProfile extends HttpServlet {
                 InputCheck.checkInput(1, 25, "firstname", enteredFirstname, "\\w");
                 InputCheck.checkInput(1, 25, "lastname", enteredLastname, "\\w");
                 //TODO description should be able to accept a greater range of characters
-                InputCheck.checkInput(0, 255, "description", enteredDescription, "[\\w\\s\\.,!?;:\"]{0,255}");
+                InputCheck.checkInput(0, 255, "description", enteredDescription, "[\\w\\s\\.,'!?;:\"]{0,255}");
             } catch (BadInputException ex) {
                 session.setAttribute("error", ex.getMessage());
                 response.sendRedirect("Profile");
