@@ -40,7 +40,7 @@
                     <li>Find your school!</li>
                     <li>Find your friends!</li>
                     <li>Stay in touch!</li>
-                    <li>Join Buddy Book today!</ul>
+                    <li>Join Buddy Book today!</li>
                 </ul>	
 
             </div>

@@ -20,9 +20,9 @@
 
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
-            <a id="headerButton" href="Logout">Logout</a>
-            <a id="headerButton" href="Profile">My profile</a>
-            <a id="headerButton" href="Search">Find</a>           
+            <a class="headerButton" href="Logout">Logout</a>
+            <a class="headerButton" href="Profile">My profile</a>
+            <a class="headerButton" href="Search">Find</a>           
         </div>
         
         
@@ -73,7 +73,7 @@
             <div id="schoolPeople">
                 People who went to this school: <br><br>
                 <c:forEach var="profile" items="${profiles}">
-                    <div id="profileListComponent">
+                    <div class="profileListComponent">
                         <a href="Profile?u=${profile.username}">${profile.firstname} ${profile.lastname}</a>
                     </div>
                 </div>

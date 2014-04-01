@@ -18,16 +18,13 @@
 
 }
 
-#headerButton{
+.headerButton{
     display: inline-block;
     padding: 2px;
     padding-left: 10px;
     padding-right: 10px;
-    
     border: 1px solid #000000;
     border-bottom: none;
-    
-    margin-bottom: none;
     text-decoration: none;    
 }
 
@@ -75,14 +72,14 @@
     background-color: #dfdffd;
 }
 
-#writeMessage{
+.writeMessage{
     margin-left: auto;
     margin-right: auto;
     width: 90%;
     height: 100px;
 }
 
-#writeReply{
+.writeReply{
     margin-left: auto;
     margin-right: auto;
     width: 96%;
@@ -91,7 +88,7 @@
 
 
 
-#writeMessageArea{
+.writeMessageArea{
     float: left;
     margin-top: 5px;
     margin-bottom: 0px;
@@ -102,20 +99,18 @@
 
 }
 
-#messageSend{
+.messageSend{
     float: left;
     margin-top: 0px;
     border: 1px solid #123456;
     border-top: none;
     background: #123456;
-    color: white;
-    
-    
+    color: white;  
 }
 
 
 
-#messageBlock{
+.messageBlock{
     
     border: 1px dashed #44AAAA;
     margin: 10px;
@@ -125,16 +120,16 @@
     background-color: #bfbffc;
 }
 
-#convosationPartner{
+.conversationPartner{
     font-size: 15px;
 }
 
-#message{
+.message{
     color: black;
     
 }
 
-#messageReply{
+.messageReply{
     color: green;
     border: 1px dashed #44AAAA;
     padding: 5px;
@@ -142,11 +137,11 @@
     background-color: #aeaefc;
 }
 
-#messageText{
+.messageText{
     font-size: 12px;
 }
 
-#messageDetails{
+.messageDetails{
     font-size: 10px;
     font-style: italic;
 }
@@ -159,23 +154,38 @@
     border-bottom: 1px solid #000000;
 }
 
+.profileListComponent{
+}
+
 #infoBox{
     width: 90%;
-    dsiplay: block;
+    display: block;
     margin-left: auto;
     margin-right: auto;
     
 }
 
-#listBox{
-    width: 30%;
+.listBoxLeft{
+    width: 40%;
     height: 80%;
-    display: inline-block;
+    display: block;
     border: 1px solid #44AAAA;
-    margin:5px;
+    margin-top: 50px;
+    margin-left:60px;
+    float:left;
 }
 
-#list{
+.listBoxRight{
+    width: 40%;
+    height: 80%;
+    display: block;
+    border: 1px solid #44AAAA;
+    margin-top: 50px;
+    margin-right:60px;
+    float:right;
+}
+
+.list{
     text-align: left;
 }
 
@@ -220,4 +230,10 @@
 
 #schoolDate{
     padding-top:100px;
+}
+
+.button{
+    border: 1px solid #123456;
+    background: #123456;
+    color: white;
 }

@@ -21,9 +21,9 @@
 
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
-            <a id="headerButton" href="Logout">Logout</a>
-            <a id="headerButton" href="Profile">My profile</a>
-            <a id="headerButton" href="Search">Find</a>           
+            <a class="headerButton" href="Logout">Logout</a>
+            <a class="headerButton" href="Profile">My profile</a>
+            <a class="headerButton" href="Search">Find</a>           
         </div>
 
 
@@ -45,22 +45,22 @@
             <div id="body">
 
 
-                <div id="listBox">
+                <div class="listBoxLeft">
                     All Schools:
-                    <ul id="list">
+                    <ul class="list">
                         <c:forEach var="school" items="${allschools}">  
                             <li >
-                                <a href="SchoolPage?s=${school.schoolname}">${school.schoolname}</a>
+                                <a href="SchoolPage?s=${school.schoolnameUrl}">${school.schoolname}</a>
                             </li>
                         </c:forEach>
                     </ul>
                 </div>
 
-                <div id="listBox">
+                <div class="listBoxRight">
                     All users:
                     <ul>
                         <c:forEach var="userdet" items="${allusers}">
-                            <li id="list">
+                            <li class="list">
                                 ${userdet.username} - <a href="Profile?u=${userdet.username}">${userdet.firstname} ${userdet.lastname}</a>
                             </li>    
                         </c:forEach>

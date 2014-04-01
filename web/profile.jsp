@@ -27,9 +27,9 @@
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
             <div id="headerLinks">
-                <a id="headerButton" href="Logout">Logout</a>
-                <a id="headerButton" href="Profile">My profile</a>
-                <a id="headerButton" href="Search">Find</a>  
+                <a class="headerButton" href="Logout">Logout</a>
+                <a class="headerButton" href="Profile">My profile</a>
+                <a class="headerButton" href="Search">Find</a>  
             </div>    
         </div>
 
@@ -53,11 +53,11 @@
             </div>
 
             <div id="rightnav">
-                <div id="messages">
-                    <div id="writeMessage">
+                <div class="messages">
+                    <div class="writeMessage">
 
                         <form action="Messager" method="POST">
-                            <textarea id="writeMessageArea" name="messagetext" rows="3" cols="8"></textarea>
+                            <textarea class="writeMessageArea" name="messagetext" rows="3" cols="8"></textarea>
                             <input type="hidden" name="recipient" value="${userDetails.username}">
                             <input type="hidden" name="from" value="${userDetails.username}">
                             <input id="messageSend" type="submit" value="send" >                        
@@ -67,8 +67,8 @@
 
                     <c:forEach var="messagethread" items="${messagethreads}">
 
-                        <div id="messageBlock">
-                            <div id="convosationPartner">Conversation with:<br> 
+                        <div class="messageBlock">
+                            <div class="conversationPartner">Conversation with:<br> 
                                 
                                 <c:choose>
                                     <c:when test="${messagethread.seneder==user.username}">
@@ -99,27 +99,27 @@
                             <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
                                 <c:choose>
                                     <c:when test="${status.index==0}">
-                                        <div id="message">
-                                            <div id="messageText">${message.messageText}</div>
-                                            <div id="messageDetails">From: ${message.senFullname}<br>  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                        <div class="message">
+                                            <div class="messageText">${message.messageText}</div>
+                                            <div class="messageDetails">From: ${message.senFullname}<br>  Sent at: ${message.dateTimeSent.toString()}  </div>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <div id="messageReply">
-                                            <div id="messageText">${message.messageText}</div>
-                                            <div id="messageDetails">From: ${message.senFullname}<br>  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                        <div class="messageReply">
+                                            <div class="messageText">${message.messageText}</div>
+                                            <div class="messageDetails">From: ${message.senFullname}<br>  Sent at: ${message.dateTimeSent.toString()}  </div>
                                         </div>
                                     </c:otherwise>
                                 </c:choose> 
 
                             </c:forEach>
 
-                            <div id="writeReply">
+                            <div class="writeReply">
                                 <form action="Messager" method="POST">
-                                    <textarea id="writeMessageArea" name="messagetext" rows="2" cols="10"></textarea>
+                                    <textarea class="writeMessageArea" name="messagetext" rows="2" cols="10"></textarea>
                                     <input type="hidden" name="replyto" value="${messagethread.messageThreadId}">
                                     <input type="hidden" name="from" value="${userDetails.username}">
-                                    <input id="messageSend" type="submit" value="reply">
+                                    <input class="messageSend" type="submit" value="reply">
                                 </form>    
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                         Attended Schools:
                         <c:forEach var="school" items="${schools}">
                             <div id="userSchoolBoxComponent">
-                                School : <a href="SchoolPage?s=${school.schoolname}">${school.schoolname}</a></br> 
+                                School : <a href="SchoolPage?s=${school.schoolnameUrl}">${school.schoolname}</a></br> 
                                 Started in: ${school.startDate}</br> 
                                 Finished in: ${school.finishDate}
                             </div>

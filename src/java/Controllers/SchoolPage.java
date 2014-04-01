@@ -48,6 +48,7 @@ public class SchoolPage extends HttpServlet {
             //if the url doesn't not contain a username the users profile is loaded 
             School school;
             String requestedSchool = request.getParameter("s");
+            System.out.println(requestedSchool);
             if (requestedSchool == null) {
                 
                 response.sendRedirect("Profile");
@@ -55,7 +56,7 @@ public class SchoolPage extends HttpServlet {
             } else {
                 //TODO schoolnames that are the right format but don't exist need dealing with
                 //if the url contain a schoolname the  schoolPage loaded will belong to that school, unless the schoolname is incorrect and then the users profile is loaded instead
-                if (requestedSchool.matches("[\\w ]{4,25}")) {
+                if (requestedSchool.matches("[\\w% ]{4,40}")) {
                     school = School.load(requestedSchool, con);
                     SchoolAttendance schAtt = null;
                     if (!SchoolAttendance.isAvailable(((User) session.getAttribute("user")).getUsername(), requestedSchool, con)){

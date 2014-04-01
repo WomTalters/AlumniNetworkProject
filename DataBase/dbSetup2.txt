@@ -1,0 +1,144 @@
+DROP TABLE users;
+
+DROP TABLE userdetails;
+
+DROP TABLE schools;
+
+DROP TABLE schoolAttendance;
+
+
+DROP TABLE messages;
+DROP TABLE messageThreads;
+
+
+CREATE TABLE users
+(
+
+username varchar(25),
+
+password varchar(25)
+
+);
+
+
+
+CREATE TABLE admin(
+username varchar(25),
+
+password varchar(25)
+);
+
+CREATE TABLE userdetails
+(
+
+username varchar(25),
+
+firstname varchar(25),
+
+lastname varchar(25),
+
+description varchar(255)
+
+);
+
+
+
+CREATE TABLE schools
+(
+
+schoolname varchar(40),
+
+location varchar(100),
+
+websiteAddress varchar(40)
+
+);
+
+
+
+CREATE TABLE schoolAttendance
+(
+
+schoolName varchar(40),
+
+userName varchar(25),
+
+startdate int,
+
+finishdate int
+
+);
+
+CREATE TABLE messages
+(
+messageid serial,
+messagethreadid int,
+messagetext varchar(255),
+sender varchar(25),
+datetimesent timestamp
+ 
+);
+
+CREATE TABLE messagethreads
+(
+messagethreadid serial,
+latestupdatetime timestamp,
+sender varchar(25),
+recipient varchar(25)
+);
+
+INSERT INTO users values('mansuraj44','password1');
+INSERT INTO users values('Pipes','thepass');
+INSERT INTO users values('cameronmct','spiderman');
+INSERT INTO users values('cptcrowbar','clive');
+INSERT INTO users values('spartawolf','beige');
+INSERT INTO users values('rfang','magicka');
+INSERT INTO users values('hollieg','secretcode');
+INSERT INTO users values('userTest','passTest');
+INSERT INTO users values('mpashby','passypass');
+INSERT INTO users values('twalters','wordyword');
+INSERT INTO users values('oprice','physics');
+INSERT INTO users values('jakeg','wallcreeper');
+INSERT INTO users values('shawkins','wales');
+INSERT INTO users values('tpashby','vegetables');
+INSERT INTO users values('bobama','mrpres');
+
+INSERT INTO admin values('bobsmith','123456');
+
+INSERT INTO userdetails values('mansuraj44','Mansuraj','Dhak','Hello my name is Mansuraj I am from Slough');
+INSERT INTO userdetails values('Pipes','Brian','Morales','Hello my name is Brian I am from Florida');
+INSERT INTO userdetails values('cameronmct','Cameron','Kinross','Chocolate buttons are my favourite.');
+INSERT INTO userdetails values('cptcrowbar','Jack','Hooley','I enjoy making robots');
+INSERT INTO userdetails values('spartawolf','Ewan','Parker','Accounting wooo');
+INSERT INTO userdetails values('rfang','Cameron','Collie','Och aye the noo');
+INSERT INTO userdetails values('hollieg','Hollie','Garwood','Hello my name is Hollie I play bass');
+INSERT INTO userdetails values('userTest','User','Test','Hello I am merely for testing so nobody likes me');
+INSERT INTO userdetails values('mpashby','Matt','Pashby','Hi I am Matt and I am rather cool.');
+INSERT INTO userdetails values('twalters','Tom','Walters','Hello my name is Tom I wish I was as cool as Matt');
+INSERT INTO userdetails values('oprice','Oliver','Price','Hello I enjoy things');
+INSERT INTO userdetails values('jakeg','Jake','Gearty','I enjoy bird watching and I do nursing');
+INSERT INTO userdetails values('shawkins','Sam','Hawkins','My name is Sam and I do biology and I am Welsh');
+INSERT INTO userdetails values('tpashby','Tom','Pashby','Hi I am Tom and I love vegetables');
+INSERT INTO userdetails values('bobama','Barack','Obama','I am Barack Obama and I enjoy flying toy planes');
+
+INSERT INTO schools values('Rickmansworth School','Croxley Green, Hertfordshire','www.rickmansworth.herts.sch.uk');
+INSERT INTO schools values('Hogwarts High','Edinburgh, Scotland','www.hogwarts.com');
+INSERT INTO schools values('Langley Grammar','Slough','http://www.lgs.slough.sch.uk');
+INSERT INTO schools values('Windsor Boys School','Windsor, Berkshire','www.twbs.co.uk');
+INSERT INTO schools values('Ysgol David Hughes','Anglesey, Wales','ysgoldavidhughes.org');
+
+INSERT INTO schoolAttendance values('Langley Grammar','mansuraj44',2006,2013);
+INSERT INTO schoolAttendance values('Langley Grammar','Pipes',2003,2008);
+INSERT INTO schoolAttendance values('Langley Grammar','cameronmct',2004,2009);
+INSERT INTO schoolAttendance values('Langley Grammar','cptcrowbar',2005,2011);
+INSERT INTO schoolAttendance values('Rickmansworth School','spartawolf',2000,2007);
+INSERT INTO schoolAttendance values('Rickmansworth School','rfang',2008,2012);
+INSERT INTO schoolAttendance values('Rickmansworth School','hollieg',1999,2014);
+INSERT INTO schoolAttendance values('Hogwarts High','userTest',2007,2013);
+INSERT INTO schoolAttendance values('Hogwarts High','mpashby',2006,2013);
+INSERT INTO schoolAttendance values('Hogwarts High','twalters',2006,2013);
+INSERT INTO schoolAttendance values('Windsor Boys School','oprice',2006,2013);
+INSERT INTO schoolAttendance values('Windsor Boys School','jakeg',2004,2010);
+INSERT INTO schoolAttendance values('Ysgol David Hughes','shawkins',2006,2013);
+INSERT INTO schoolAttendance values('Ysgol David Hughes','tpashby',2005,2012);
+INSERT INTO schoolAttendance values('Ysgol David Hughes','bobama',1984,1990);

@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 public class School {
 
     private String schoolname;
+    private String schoolnameUrl;
     private String location;
     private String webSiteAddress;
 
@@ -22,14 +23,24 @@ public class School {
         this.schoolname = schoolname;
         this.location = location;
         this.webSiteAddress = webSiteAddress;
+        schoolnameUrl = schoolname.replaceAll(" ", "%20");
+        
     }
     
     public School(String schoolname) {
         this.schoolname = schoolname;
+        schoolnameUrl = schoolname.replaceAll(" ", "%20");
+       
+    }
+
+    public String getSchoolnameUrl() {
+        return schoolnameUrl;
+    }
+
+    public void setSchoolnameUrl(String schoolnameUrl) {
+        this.schoolnameUrl = schoolnameUrl;
     }
     
-    
-
     public String getSchoolname() {
         return schoolname;
     }
@@ -70,13 +81,13 @@ public class School {
     
     public static School load(String schoolname, Connection con) throws ServletException{
         try {
+            System.out.println(schoolname);
             PreparedStatement ps = con.prepareStatement("SELECT * FROM schools WHERE schoolname=?;");
             ps.setString(1, schoolname);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return new School(rs.getString("schoolname"),rs.getString("location"),rs.getString("websiteaddress"));
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw new ServletException("Could not load School");            
         }
     }

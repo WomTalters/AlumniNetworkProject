@@ -16,6 +16,7 @@ public class SchoolAttendance {
 
     private String username;
     private String schoolname;
+    private String schoolnameUrl;
     private int startDate;
     private int finishDate;
 
@@ -27,15 +28,25 @@ public class SchoolAttendance {
         this.schoolname = schoolname;
         this.startDate = startDate;
         this.finishDate = finishDate;
+        schoolnameUrl = schoolname.replaceAll(" ", "%20");
+        
     }
 
     public SchoolAttendance(String username, String schoolname) {
         this.username = username;
-        this.schoolname = schoolname;
-        System.out.println("gogog");
-        System.out.println(startDate);
+        this.schoolname = schoolname;    
+        schoolnameUrl = schoolname.replaceAll(" ", "%20");
+        
     }
 
+    public String getSchoolnameUrl() {
+        return schoolnameUrl;
+    }
+
+    public void setSchoolnameUrl(String schoolnameUrl) {
+        this.schoolnameUrl = schoolnameUrl;
+    }
+        
     public String getUsername() {
         return username;
     }
