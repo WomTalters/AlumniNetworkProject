@@ -20,7 +20,9 @@
 
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
-            <div class="logout"><a class="logout" href="Logout">Logout</a></div>
+            <a id="headerButton" href="Logout">Logout</a>
+            <a id="headerButton" href="Profile">My profile</a>
+            <a id="headerButton" href="Search">Find</a>           
         </div>
         
         

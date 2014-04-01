@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
@@ -19,7 +20,6 @@ public class UserDetails {
 
     public UserDetails() {
     }
-
 
     public UserDetails(String username, String firstname, String lastname) {
         this.username = username;
@@ -87,6 +87,20 @@ public class UserDetails {
             throw new ServletException("Could not load UserDetails");
         }
        
+    }
+    
+    public static ArrayList getUserList(Connection con) throws ServletException{
+        try{
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM userDetails;");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<UserDetails> userList = new ArrayList();
+            while (rs.next()){
+                userList.add(new UserDetails(rs.getString("username"),rs.getString("firstname"),rs.getString("lastname")));
+            }
+            return userList;
+        } catch (SQLException ex) {
+            throw new ServletException("user list load problem");
+        }  
     }
     
     public static UserDetails load(String username,Connection con) throws ServletException {

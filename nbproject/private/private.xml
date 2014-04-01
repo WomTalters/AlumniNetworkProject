@@ -5,7 +5,9 @@
         <group name="gamething">
             <file>file:/C:/Users/Tom/Documents/GitHub/AlumniNetworkProject/web/Style.css</file>
             <file>file:/C:/Users/Tom/Documents/GitHub/AlumniNetworkProject/web/profile.jsp</file>
-            <file>file:/C:/Users/Tom/Documents/GitHub/AlumniNetworkProject/web/profile.html</file>
+            <file>file:/C:/Users/Tom/Documents/GitHub/AlumniNetworkProject/web/schoolPage.jsp</file>
+            <file>file:/C:/Users/Tom/Documents/GitHub/AlumniNetworkProject/web/search.jsp</file>
+            <file>file:/C:/Users/Tom/Documents/GitHub/AlumniNetworkProject/src/java/Models/UserDetails.java</file>
         </group>
     </open-files>
 </project-private>

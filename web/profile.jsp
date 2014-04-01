@@ -26,7 +26,11 @@
 
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
-            <div id="logout"><a class="logout" href="Logout">Logout</a></div>
+            <div id="headerLinks">
+                <a id="headerButton" href="Logout">Logout</a>
+                <a id="headerButton" href="Profile">My profile</a>
+                <a id="headerButton" href="Search">Find</a>  
+            </div>    
         </div>
 
 
@@ -53,10 +57,10 @@
                     <div id="writeMessage">
 
                         <form action="Messager" method="POST">
-                            <textarea name="messagetext" rows="1" cols="10"></textarea>
+                            <textarea id="writeMessageArea" name="messagetext" rows="3" cols="8"></textarea>
                             <input type="hidden" name="recipient" value="${userDetails.username}">
                             <input type="hidden" name="from" value="${userDetails.username}">
-                            <input type="submit" value="send" >                        
+                            <input id="messageSend" type="submit" value="send" >                        
                         </form>
 
                     </div>
@@ -66,42 +70,43 @@
 
 
                         <div id="messageBlock">
-                            Conversation with: ${messagethread.recFullname}
-                            <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
-                                <c:choose>
-                                    <c:when test="${status.index==0}">
-                                        <div id="message">
-                                            <div id="messageText">${message.messageText}</div>
-                                            <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
-                                        </div>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div id="messageReply">
-                                            <div id="messageText">${message.messageText}</div>
-                                            <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
-                                        </div>
-                                    </c:otherwise>
-                                </c:choose> 
+                            <div id="convosationPartner">Conversation with: ${messagethread.recFullname}<div id="convosationPartner"></div>
 
-                            </c:forEach>
+                                <c:forEach var="message" items="${messagethread.messages}" varStatus="status">
+                                    <c:choose>
+                                        <c:when test="${status.index==0}">
+                                            <div id="message">
+                                                <div id="messageText">${message.messageText}</div>
+                                                <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div id="messageReply">
+                                                <div id="messageText">${message.messageText}</div>
+                                                <div id="messageDetails">From: ${message.senFullname}  Sent at: ${message.dateTimeSent.toString()}  </div>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose> 
 
-                            <div id="writeReply">
-                                <form action="Messager" method="POST">
-                                    <textarea name="messagetext" rows="1" cols="10"></textarea>
-                                    <input type="hidden" name="replyto" value="${messagethread.messageThreadId}">
-                                    <input type="hidden" name="from" value="${userDetails.username}">
-                                    <input type="submit" value="reply">
-                                </form>    
+                                </c:forEach>
+
+                                <div id="writeReply">
+                                    <form action="Messager" method="POST">
+                                        <textarea id="writeMessageArea" name="messagetext" rows="2" cols="10"></textarea>
+                                        <input type="hidden" name="replyto" value="${messagethread.messageThreadId}">
+                                        <input type="hidden" name="from" value="${userDetails.username}">
+                                        <input id="messageSend" type="submit" value="reply">
+                                    </form>    
+                                </div>
                             </div>
-                        </div>
 
-                    </c:forEach>        
+                        </c:forEach>        
 
+
+                    </div>
 
                 </div>
-
             </div>
-
 
             <div id="body">
                 <div id="profileName">${userDetails.firstname} ${userDetails.lastname}</div>
@@ -151,16 +156,6 @@
                             </div>          
                         </c:forEach>
                     </div>
-
-                    <div id="schoolBox">
-                        All Schools:
-                        <c:forEach var="school" items="${allschools}">
-                            <div id="schoolBoxComponent">
-                                School : <a href="SchoolPage?s=${school.schoolname}">${school.schoolname}</a></br> 
-                            </div>
-                        </c:forEach>
-                    </div>
-
 
                 </div>
 
