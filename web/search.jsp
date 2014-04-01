@@ -21,9 +21,11 @@
 
         <div id="header">
             <img id="headerImg" src="Logo.png" alt="Buddy_Book">
-            <a class="headerButton" href="Logout">Logout</a>
-            <a class="headerButton" href="Profile">My profile</a>
-            <a class="headerButton" href="Search">Find</a>           
+            <div id="headerLinks">
+                <a class="headerButton" href="Logout">Logout</a>
+                <a class="headerButton" href="Profile">My profile</a>
+                <a class="headerButton" href="Search">Find</a>  
+            </div>    
         </div>
 
 

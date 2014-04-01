@@ -93,7 +93,7 @@ public class Admin extends HttpServlet {
                 out.println("Number of schools: "+resultSet.getInt("count")+"<br><br>");
             }
             
-            sqlStatement="SELECT users.username,schoolname,count(messageID) FROM users,schoolattendance,messages WHERE users.username=schoolattendance.username GROUP BY users.username, schoolname;";
+            sqlStatement="SELECT users.username,schoolname,count(messageID) FROM users,schoolattendance,messages WHERE users.username=schoolattendance.username and users.username=messages.sender GROUP BY users.username, schoolname;";
             resultSet = statement.executeQuery(sqlStatement); 
             out.println("<table border=\"1\"");
                 out.println("<tr>");

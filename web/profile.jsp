@@ -46,7 +46,7 @@
                         Edit first name: <input type="text" name="firstname" value="${userDetails.firstname}"/><br><br>
                         Edit last name: <input type="text" name="lastname" value="${userDetails.lastname}"/><br><br>
                         Edit description: <textarea name="description" rows="14" cols="20">${userDetails.description}</textarea><br><br>
-                        <input type="submit" value="Update">
+                        <input class="button" type="submit" value="Update">
                     </form>   
 
                 </c:if>
@@ -160,9 +160,9 @@
                     <div id="userSchoolBox">
                         Attended Schools:
                         <c:forEach var="school" items="${schools}">
-                            <div id="userSchoolBoxComponent">
-                                School : <a href="SchoolPage?s=${school.schoolnameUrl}">${school.schoolname}</a></br> 
-                                Started in: ${school.startDate}</br> 
+                            <div class="userSchoolBoxComponent">
+                                School : <a href="SchoolPage?s=${school.schoolnameUrl}">${school.schoolname}</a><br> 
+                                Started in: ${school.startDate}<br> 
                                 Finished in: ${school.finishDate}
                             </div>
                         </c:forEach>
@@ -172,7 +172,7 @@
                         Schoolmates:
                         <c:forEach var="profile" items="${schoolmates}">
 
-                            <div id="schoolmateBoxComponent">
+                            <div class="schoolmateBoxComponent">
                                 <a href="Profile?u=${profile.username}">${profile.firstname} ${profile.lastname}</a> 
                             </div>          
                         </c:forEach>
