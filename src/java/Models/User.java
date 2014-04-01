@@ -1,13 +1,13 @@
 package Models;
 
-import Database.DBAccess;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.servlet.ServletException;
 
 /**
- *
+ * The model used to represent the table that stores users and their passwords
+ * 
  * @author Tom
  */
 public class User {
@@ -39,6 +39,13 @@ public class User {
         this.password = password;
     }
     
+    /**
+     * checks if the username/password combination exists
+     * 
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public boolean isValid(Connection con) throws ServletException{
         try {
             
@@ -55,6 +62,13 @@ public class User {
         } 
     }
 
+    /**
+     * checks if the username exists
+     * 
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public boolean isAvailable(Connection con) throws ServletException{
         try {
             PreparedStatement ps = con.prepareStatement("SELECT COUNT (username) FROM users WHERE username=?;");
@@ -68,7 +82,13 @@ public class User {
         } 
     }
     
-
+    /**
+     * saves the user informations
+     * 
+     * @param user
+     * @param con
+     * @throws ServletException 
+     */
     public void save(User user, Connection con) throws ServletException {
         try {
 

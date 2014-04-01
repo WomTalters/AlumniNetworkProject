@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import Database.DBAccess;
@@ -20,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * The controller used add and update info about which schools a user went to.
+ * 
  * @author Tom
  */
 @WebServlet(name = "StudentSchool", urlPatterns = {"/StudentSchool"})
@@ -39,7 +35,8 @@ public class StudentSchool extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
+        
+        //if the user attribute is null (due to timeout etc) then the user need to login again
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
         } else {
@@ -48,7 +45,8 @@ public class StudentSchool extends HttpServlet {
             String schoolname = request.getParameter("schoolname");
             int startDate = Integer.parseInt(request.getParameter("startyear"));
             int finishDate = Integer.parseInt(request.getParameter("finishyear"));
-
+            
+            //check the parameters have the correct format and length
             try {
                 InputCheck.checkInput(schoolname, "[\\w ]{4,25}");
                 InputCheck.checkInput(request.getParameter("startyear"), "\\d{4}");
@@ -58,7 +56,8 @@ public class StudentSchool extends HttpServlet {
                 response.sendRedirect("Profile");
                 return;
             }
-
+            
+            // update the attendance
             SchoolAttendance schAtt = new SchoolAttendance(username, schoolname, startDate, finishDate);
             Connection con = DBAccess.getConnection();
             schAtt.save(con, schAtt.isAvailable(con));

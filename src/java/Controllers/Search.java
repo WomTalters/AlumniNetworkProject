@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Controllers;
 
 import Database.DBAccess;
@@ -21,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * The controller used to load the search page
+ * 
  *
  * @author Tom
  */
@@ -45,6 +41,7 @@ public class Search extends HttpServlet {
         } else {
             Connection con = DBAccess.getConnection();
             
+            // get the lists of all the schools and all the users
             ArrayList<SchoolAttendance> allSchools = School.getSchoolList(con);
             ArrayList<UserDetails> allUsers = UserDetails.getUserList(con);
             

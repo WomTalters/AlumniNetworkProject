@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
- *
+ * The model used to represent the users details
+ * 
  * @author Tom
  */
 public class UserDetails {
@@ -76,6 +77,14 @@ public class UserDetails {
         this.username = username;
     }
     
+    /**
+     * gets the users fullname from their username
+     * 
+     * @param username
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static String getNameFromUsername(String username, Connection con) throws ServletException{
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM userdetails WHERE username=?;");
@@ -89,6 +98,13 @@ public class UserDetails {
        
     }
     
+    /**
+     * gets the list of User details
+     * 
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static ArrayList getUserList(Connection con) throws ServletException{
         try{
             PreparedStatement ps = con.prepareStatement("SELECT * FROM userDetails;");
@@ -103,6 +119,14 @@ public class UserDetails {
         }  
     }
     
+    /**
+     * loads a users details
+     * 
+     * @param username
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static UserDetails load(String username,Connection con) throws ServletException {
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM userdetails WHERE username=?;");
@@ -115,7 +139,13 @@ public class UserDetails {
         }
     }
     
-    
+    /**
+     * saves the users details
+     * 
+     * @param con
+     * @param isNewUser
+     * @throws ServletException 
+     */
     public void save(Connection con, boolean isNewUser) throws ServletException{
         try {            
             if (isNewUser){

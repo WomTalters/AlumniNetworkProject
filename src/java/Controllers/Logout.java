@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Controllers;
 
 import java.io.IOException;
@@ -15,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * The controller used to log a user out
+ * 
  * @author Tom
  */
 @WebServlet(name = "Logout", urlPatterns = {"/Logout"})
@@ -34,6 +29,7 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         
+        // forget the user and redirect them to the startpage
         session.invalidate();
         response.sendRedirect("StartPage");
         

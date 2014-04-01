@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Controllers;
 
 import Database.DBAccess;
@@ -24,7 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * The controller used to send other users messages
+ * 
  * @author Tom
  */
 @WebServlet(name = "Messager", urlPatterns = {"/Messager"})
@@ -43,14 +38,16 @@ public class Messager extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String messageText = request.getParameter("messagetext");
-        String recipient = request.getParameter("recipient");
-        
+        String recipient = request.getParameter("recipient"); 
+        //the profile that the message was typed in
         String fromProfile = request.getParameter("from");
         
+        //if nothing is entered for this parameter it is set to an empty string instead of null
         if (fromProfile == null) {
             fromProfile = "";
         }
         
+        // check if the message has the correct length and format
         try {
             InputCheck.checkInput("message", messageText, "[\\w\\s\\.,'!?;:\"]{1,255}");            
         } catch (BadInputException ex) {
@@ -61,16 +58,22 @@ public class Messager extends HttpServlet {
         
         Connection con = DBAccess.getConnection();
         
+        //if the user attribute is null (due to timeout etc) then the user need to login again
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
+            // replyto is the id of the message thread
         } else if (request.getParameter("replyto") == null) {
+            
+            //if the message is not a reply, make a new message thread
             MessageThread mt = new MessageThread(recipient, ((User)session.getAttribute("user")).getUsername(),UserDetails.getNameFromUsername(recipient, con),UserDetails.getNameFromUsername(((User)session.getAttribute("user")).getUsername(), con));
-            mt.saveNew(con);            
+            mt.saveNew(con);
+            //add a new message to the thread
             Message message = new Message(messageText,mt.getMessageThreadId(),((User)session.getAttribute("user")).getUsername(),new Timestamp(System.currentTimeMillis()),UserDetails.getNameFromUsername(((User)session.getAttribute("user")).getUsername(), con));
             MessageThread.saveLatestUpdateTime(message.getMessageThreadId(), con);
             message.save(con);
             response.sendRedirect("Profile" + "?u=" + fromProfile);
         } else {
+            //add a new message to the thread
             Message message = new Message(messageText,Integer.parseInt(request.getParameter("replyto")),((User)session.getAttribute("user")).getUsername(),new Timestamp(System.currentTimeMillis()),UserDetails.getNameFromUsername(((User)session.getAttribute("user")).getUsername(), con));
             MessageThread.saveLatestUpdateTime(message.getMessageThreadId(), con);
             message.save(con);

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
- *
+ * A model used to represent a message
+ * 
  * @author Tom
  */
 public class Message {
@@ -92,6 +93,12 @@ public class Message {
         this.dateTimeSent = dateTimeSent;
     }
 
+    /**
+     * adds a new message to the database
+     * 
+     * @param con
+     * @throws ServletException 
+     */
     public void save(Connection con) throws ServletException {
         try {
 
@@ -108,7 +115,14 @@ public class Message {
         }
     }
 
-    
+    /**
+     * loads a list of messages in a particular thread
+     * 
+     * @param messageThreadId the id of
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static ArrayList loadMessages(int messageThreadId,Connection con) throws ServletException{        
         try{
             

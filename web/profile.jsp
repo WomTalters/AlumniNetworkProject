@@ -43,9 +43,9 @@
                 <c:if test="${userDetails.username == user.username}">
                     <br><br>    
                     <form action="EditProfile" method="post">
-                        Edit first name: <input type="text" name="firstname" value="${userDetails.firstname}"/><br><br>
-                        Edit last name: <input type="text" name="lastname" value="${userDetails.lastname}"/><br><br>
-                        Edit description: <textarea name="description" rows="14" cols="20">${userDetails.description}</textarea><br><br>
+                        Edit first name: <input class="input" type="text" name="firstname" value="${userDetails.firstname}"/><br><br>
+                        Edit last name: <input class="input" type="text" name="lastname" value="${userDetails.lastname}"/><br><br>
+                        Edit description: <textarea class="input" name="description" rows="14" cols="20">${userDetails.description}</textarea><br><br>
                         <input class="button" type="submit" value="Update">
                     </form>   
 
@@ -60,7 +60,7 @@
                             <textarea class="writeMessageArea" name="messagetext" rows="3" cols="8"></textarea>
                             <input type="hidden" name="recipient" value="${userDetails.username}">
                             <input type="hidden" name="from" value="${userDetails.username}">
-                            <input id="messageSend" type="submit" value="send" >                        
+                            <input class="messageSend" type="submit" value="send" >                        
                         </form>
 
                     </div>

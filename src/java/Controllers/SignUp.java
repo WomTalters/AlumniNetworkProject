@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import Database.DBAccess;
@@ -20,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * The controller used to sign up a new user
+ * 
  * @author Tom
  */
 @WebServlet(name = "Ctrl_signUp", urlPatterns = {"/Ctrl_signUp"})
@@ -61,7 +57,7 @@ public class SignUp extends HttpServlet {
         
         //try to update the database with the new username and password
         if (user.isAvailable(con)) {
-            //TODO user still saves if there is an error with the saving of userdetails
+           
             user.save(user, con);
             userDetails.save(con,true);
             session.setAttribute("user", user);

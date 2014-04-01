@@ -1,8 +1,5 @@
 package General;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * This class contains a variety of methods for checking user input.
  * 

@@ -50,20 +50,20 @@
                         <c:when test="${schatt.startDate == 0}">
                             Did you go to this school? Add the your start and finish years if you did.</br><br>
                             <form action="StudentSchool" method="post">
-                                Start year: <input name="startyear" type="number" /><br>
-                                Finish year: <input name="finishyear" type="number" /><br><br>
+                                Start year: <input class="input" name="startyear" type="number" /><br>
+                                Finish year: <input class="input" name="finishyear" type="number" /><br><br>
                                 <input name="schoolname" type="hidden" value="${school.schoolname}"/>
-                                <input type="submit" value="Add attendance"> 
+                                <input class="button" type="submit" value="Add attendance"> 
                             </form>
                         </c:when>
                         <c:otherwise>
 
                             You can edit these dates by changing the values and clicking update.<br><br>
                             <form action="StudentSchool" method="post">
-                                Start year: <input name="startyear" type="number" value="${schatt.startDate}" /><br>
-                                Finish year: <input name="finishyear" type="number" value="${schatt.finishDate}"/><br><br>
+                                Start year: <input class="input" name="startyear" type="number" value="${schatt.startDate}" /><br>
+                                Finish year: <input class="input" name="finishyear" type="number" value="${schatt.finishDate}"/><br><br>
                                 <input name="schoolname" type="hidden" value="${school.schoolname}"/>
-                                <input type="submit" value="Update attendance"> 
+                                <input class="button" type="submit" value="Update attendance"> 
                             </form>
 
                         </c:otherwise>    
@@ -78,8 +78,9 @@
                         <div class="profileListComponent">
                             <a href="Profile?u=${profile.username}">${profile.firstname} ${profile.lastname}</a>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>    
+                </div>
+
             </div>
 
         </div>

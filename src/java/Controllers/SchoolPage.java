@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import Database.DBAccess;
@@ -21,7 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * The controller used to load a school page
+ * 
  * @author Tom
  */
 @WebServlet(name = "SchoolPage_1", urlPatterns = {"/SchoolPage_1"})
@@ -52,9 +48,8 @@ public class SchoolPage extends HttpServlet {
             if (requestedSchool == null) {
                 
                 response.sendRedirect("Profile");
-                //TODO eventually have a school search page here perhaps
+
             } else {
-                //TODO schoolnames that are the right format but don't exist need dealing with
                 //if the url contain a schoolname the  schoolPage loaded will belong to that school, unless the schoolname is incorrect and then the users profile is loaded instead
                 if (requestedSchool.matches("[\\w% ]{4,40}")) {
                     school = School.load(requestedSchool, con);
@@ -67,7 +62,7 @@ public class SchoolPage extends HttpServlet {
                         schAtt = new SchoolAttendance(((User)session.getAttribute("user")).getUsername(),school.getSchoolname()); 
                     }
                     
-                    
+                    //gets the list of the schools alumini
                     ArrayList<UserDetails> profiles = SchoolAttendance.getAlumniList(requestedSchool, con);
                     request.setAttribute("profiles", profiles);
                     request.setAttribute("schatt", schAtt);

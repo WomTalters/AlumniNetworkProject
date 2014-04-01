@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import Database.DBAccess;
@@ -19,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * The controller used to log a user in.
  *
  * @author Tom
  */
@@ -39,6 +35,7 @@ public class Login extends HttpServlet {
 
         HttpSession session = request.getSession(true);
 
+        // if the user is already logged in the users profile is loaded
         if (session.getAttribute("user") != null) {
             response.sendRedirect("Profile");
             return;
@@ -60,7 +57,7 @@ public class Login extends HttpServlet {
         Connection con = DBAccess.getConnection();
         
         User user = new User(enteredUsername, enteredPassword);
-
+        //checks to see if the entered username/password combination exists
         if (user.isValid(con)) {
             session.setAttribute("user", user);
             response.sendRedirect("Profile");

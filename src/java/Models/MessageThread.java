@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
- *
+ * A model used to represent a message thread
+ * 
  * @author Tom
  */
 public class MessageThread {
@@ -103,6 +104,12 @@ public class MessageThread {
         this.seneder = seneder;
     }
 
+    /**
+     * saves a new message thread in the database
+     * 
+     * @param con
+     * @throws ServletException 
+     */
     public void saveNew(Connection con) throws ServletException {
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO messagethreads (sender,recipient) VALUES (?,?);");
@@ -122,6 +129,13 @@ public class MessageThread {
         }
     }
 
+    /**
+     * updates the latest message time in this threads row
+     * 
+     * @param messageThreadId
+     * @param con
+     * @throws ServletException 
+     */
     public static void saveLatestUpdateTime(int messageThreadId,Connection con) throws ServletException{
         try {
             PreparedStatement ps = con.prepareStatement("UPDATE messagethreads SET latestupdatetime=? WHERE messagethreadid=? ;");
@@ -133,11 +147,24 @@ public class MessageThread {
         }
     }
     
+    /**
+     * loads a list of all the messages threads that involve the user
+     * 
+     * @param profileUser
+     * @param user
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static ArrayList loadMessageThreads(String profileUser, String user, Connection con) throws ServletException {
 
         try {
             PreparedStatement ps;
 
+            /* if the user is on their profile it loads all messages threads for
+             * them otherwise it loads all threads to do with the user and the user
+             * of profile the user is on
+             */
             if (profileUser.equals(user)) {
                 ps = con.prepareStatement("SELECT * FROM messagethreads WHERE recipient=? OR sender=? ORDER BY latestupdatetime DESC;");
                 ps.setString(1, user);

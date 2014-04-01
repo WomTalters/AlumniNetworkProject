@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import Database.DBAccess;
@@ -21,7 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * The controller used to load a profile page
+ * 
  * @author Tom
  */
 @WebServlet(name = "Profile", urlPatterns = {"/Profile"})
@@ -49,10 +45,11 @@ public class Profile extends HttpServlet {
             //if the url doesn't not contain a username the users profile is loaded 
             UserDetails userDetails;
             String requestedProfile = request.getParameter("u");
+            
+            // load up the users profile if no specific profile is requested
             if (requestedProfile == null) {
                 userDetails = UserDetails.load(((User) session.getAttribute("user")).getUsername(), con);
-            } else {
-                //TODO usernames that are the right format but don't exist need dealing with
+            } else {                
                 //if the url contain a username the profile page loaded will belong to that user, unless the username is incorrect and then the users profile is loaded instead
                 if (requestedProfile.matches("\\w{4,25}")) {
                     userDetails = UserDetails.load(requestedProfile, con);
@@ -62,6 +59,7 @@ public class Profile extends HttpServlet {
                 }
             }
             
+            // get lists of schools the user goes to, their schoolmates and the messageThreads they are involved with
             ArrayList<SchoolAttendance> schools = SchoolAttendance.getSchoolList(userDetails.getUsername(), con);
             ArrayList<UserDetails> schoolmates = SchoolAttendance.getSchoolmateList(userDetails.getUsername(), con);
             ArrayList<MessageThread> messageThreads = MessageThread.loadMessageThreads(userDetails.getUsername(), ((User) session.getAttribute("user")).getUsername(), con);

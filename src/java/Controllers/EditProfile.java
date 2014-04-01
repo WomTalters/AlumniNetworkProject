@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
+ * The controller used to update changes made to the users details
  *
  * @author Tom
  */
@@ -22,8 +23,9 @@ import javax.servlet.http.HttpSession;
 public class EditProfile extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP
+     * <code>GET</code> and
+     * <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -34,6 +36,7 @@ public class EditProfile extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
 
+        //if the user attribute is null (due to timeout etc) then the user need to login again
         if (session.getAttribute("user") == null) {
             response.sendRedirect("StartPage");
         } else {
@@ -45,7 +48,6 @@ public class EditProfile extends HttpServlet {
             try {
                 InputCheck.checkInput(1, 25, "firstname", enteredFirstname, "\\w");
                 InputCheck.checkInput(1, 25, "lastname", enteredLastname, "\\w");
-                //TODO description should be able to accept a greater range of characters
                 InputCheck.checkInput(0, 255, "description", enteredDescription, "[\\w\\s\\.,'!?;:\"]{0,255}");
             } catch (BadInputException ex) {
                 session.setAttribute("error", ex.getMessage());
@@ -54,10 +56,12 @@ public class EditProfile extends HttpServlet {
             }
 
             Connection con = DBAccess.getConnection();
+            // update the details
             UserDetails userDetails = new UserDetails(((User) session.getAttribute("user")).getUsername(), enteredFirstname, enteredLastname, enteredDescription);
-
             userDetails.save(con, false);
             response.sendRedirect("Profile");
+            
+            DBAccess.closeConnection(con);
 
         }
 
@@ -65,7 +69,8 @@ public class EditProfile extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Handles the HTTP
+     * <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -79,7 +84,8 @@ public class EditProfile extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP
+     * <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -101,5 +107,4 @@ public class EditProfile extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

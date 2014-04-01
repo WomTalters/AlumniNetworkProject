@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
+ * A model used to represent the table containing details about which schools a user
+ * went to
  *
  * @author Tom
  */
@@ -79,6 +81,13 @@ public class SchoolAttendance {
         this.finishDate = finishDate;
     }
 
+    /**
+     * checks if the user attends this school
+     * 
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public boolean isAvailable(Connection con) throws ServletException {
         try {
             PreparedStatement ps = con.prepareStatement("SELECT COUNT (username) FROM schoolAttendance WHERE username=? AND schoolname=?;");
@@ -93,6 +102,14 @@ public class SchoolAttendance {
         }
     }
     
+    /**
+     * loads the list of schoolAttendance object the user is involved with
+     * 
+     * @param username
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static ArrayList getSchoolList(String username, Connection con) throws ServletException{
         try{
             PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance WHERE username=?;");
@@ -108,6 +125,14 @@ public class SchoolAttendance {
         }  
     }
     
+    /**
+     * Loads the list of UserDetails objects the users schoolmates are involved with
+     * 
+     * @param username
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static ArrayList getSchoolmateList(String username, Connection con) throws ServletException{
         try{
             PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance AS a Inner JOIN userDetails ON a.username=userDetails.username WHERE schoolname IN (SELECT schoolname FROM schoolAttendance WHERE username=? AND (a.startdate<=finishdate AND startdate<=a.finishdate)) AND a.username!=?;");
@@ -123,7 +148,14 @@ public class SchoolAttendance {
             throw new ServletException("school list load problem");
         }  
     }
-    
+    /**
+     * loads the list
+     * 
+     * @param schoolname
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static ArrayList getAlumniList(String schoolname, Connection con) throws ServletException{
         try{
             PreparedStatement ps = con.prepareStatement("SELECT * FROM schoolAttendance Inner JOIN userDetails ON schoolAttendance.username=userDetails.username WHERE schoolAttendance.schoolname=?;");

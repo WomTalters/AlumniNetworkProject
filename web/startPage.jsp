@@ -28,9 +28,9 @@
             <div id="leftnav">
                 <h1>Login</h1>
                 <form action="Login" method="post">
-                    Username: <br><input type="text" name="username"/><br><br>
-                    Password: <br><input type="password" name="password"/><br><br>
-                    <input type="submit" value="login"/>
+                    Username: <br><input class="input" type="text" name="username"/><br><br>
+                    Password: <br><input class="input" type="password" name="password"/><br><br>
+                    <input class="button" type="submit" value="login"/>
                 </form>
             </div>
             
@@ -50,12 +50,12 @@
                 <h1>Sign up</h1>
                 <form action="SignUp" method="post">
                     <br><br><br>
-                    Username: <input type="text" name="username"/>
-                    Password: <input type="password" name="password"/>
+                    Username: <input class="input" type="text" name="username"/>
+                    Password: <input class="input" type="password" name="password"/>
                     <br><br>
-                    Firstname: <input type="text" name="firstname"/>
-                    Lastname: <input type="text" name="lastname"/><br><br>
-                    <input type="submit" value="Sign up"/>
+                    Firstname: <input class="input" type="text" name="firstname"/>
+                    Lastname: <input class="input" type="text" name="lastname"/><br><br>
+                    <input class="button" type="submit" value="Sign up"/>
                 </form>
             </div>
         </div>

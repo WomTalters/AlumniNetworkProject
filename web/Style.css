@@ -190,22 +190,27 @@
 }
 
 #description{
+    padding: 10px;
     margin: 20px;
     border: 1px solid #44AAAA;
 }
 
 #userSchoolBox{
+    text-align: left;
+    padding: 10px;
     float: right;
     margin-right: 10%;
     border: 1px solid #44AAAA;
 }
 
-#userSchoolBoxComponent{
+.userSchoolBoxComponent{
     padding:10px;
     margin: 10px;
 }
 
 #schoolmateBox{
+    text-align: left;
+    padding: 200px;
     float: left;
     margin-left: 10%;
     padding: 5px;
@@ -220,12 +225,12 @@
 }
 
 #schoolDetails{
-    font-size: 25px;
+    font-size: 15px;
     padding-top: 100px;
 }
 
 #schoolPeople{
-    Padding-top:50px;
+    padding-top:50px;
 }
 
 #schoolDate{
@@ -236,4 +241,9 @@
     border: 1px solid #123456;
     background: #123456;
     color: white;
+}
+
+.input{
+    border: 1px dashed #123456;
+    
 }

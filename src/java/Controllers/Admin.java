@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controllers;
 
 import Database.DBAccess;
@@ -21,7 +17,8 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * The controller used to display statistics for the administrator 
+ * 
  * @author ckk13dzu
  */
 @WebServlet(name = "adminStatistics", urlPatterns = {"/adminStatistics"})

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 
 /**
+ * A model used to represent a school
  *
  * @author Tom
  */
@@ -65,6 +66,13 @@ public class School {
         this.webSiteAddress = webSiteAddress;
     }
     
+    /**
+     * loads the list of schools
+     * 
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static ArrayList getSchoolList(Connection con) throws ServletException{
         try{
             PreparedStatement ps = con.prepareStatement("SELECT * FROM schools;");
@@ -79,6 +87,14 @@ public class School {
         }  
     }
     
+    /**
+     * loads a single school
+     * 
+     * @param schoolname
+     * @param con
+     * @return
+     * @throws ServletException 
+     */
     public static School load(String schoolname, Connection con) throws ServletException{
         try {
             System.out.println(schoolname);
